@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+
+<head>
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("theme"); } catch (e) { }
+      var t = (stored === "light" || stored === "dark") ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Cartographie du contenu — portfolio Aymen Hannani</title>
+
+  <!-- réutilise les variables de thème du site -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Open+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* mise en page propre à cette page de référence — préfixe cm- pour ne pas
+       entrer en collision avec les classes du site */
+    body { padding: 0 0 80px; }
+    code, .cm-path code { display: inline; font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+    .cm-wrap { max-width: 1180px; margin-inline: auto; padding-inline: 24px; }
+
+    .cm-top {
+      position: sticky; top: 0; z-index: 5;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      background-color: var(--bg);
+      border-block-end: 1px solid var(--line);
+      padding: 16px 24px; margin-block-end: 28px;
+    }
+    .cm-top h1 { font-family: var(--ff-barlow); font-size: 2rem; color: var(--fg); margin-inline-end: auto; }
+    .cm-badge {
+      font-size: 1.2rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text); background-color: var(--accent-neutral);
+      border: 1px solid var(--accent-neutral-line); border-radius: var(--radius-pill); padding: 4px 12px;
+    }
+    .cm-top a { color: var(--accent-primary); font-size: 1.4rem; }
+
+    .cm-intro { margin-block-end: 28px; font-size: 1.5rem; max-width: 90ch; color: var(--text); }
+    .cm-intro strong { color: var(--fg); }
+
+    .cm-stats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-block-end: 36px; }
+    .cm-stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-15); padding: 16px 18px; }
+    .cm-stat b { display: block; font-family: var(--ff-barlow); font-size: 2.6rem; color: var(--fg); line-height: 1.1; }
+    .cm-stat span { font-size: 1.3rem; color: var(--text-muted); }
+
+    .cm-card {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius-15); padding: 22px; margin-block-end: 20px;
+    }
+    .cm-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-block-end: 14px;
+               padding-block-end: 12px; border-block-end: 1px solid var(--line); }
+    .cm-head h2 { font-family: var(--ff-barlow); font-size: 2.2rem; color: var(--fg); }
+    .cm-id { font-size: 1.3rem; color: var(--accent-primary); background: var(--accent-primary-soft);
+             border: 1px solid var(--accent-primary-line); border-radius: var(--radius-5); padding: 2px 8px; }
+
+    .cm-asset { display: grid; gap: 18px; align-items: start; padding-block: 16px; }
+    .cm-asset + .cm-asset { border-block-start: 1px dashed var(--line); }
+    @media (min-width: 760px) { .cm-asset { grid-template-columns: 320px 1fr; } }
+
+    .cm-previews { display: flex; gap: 10px; }
+    .cm-variant { flex: 1; min-width: 0; }
+    .cm-thumb {
+      border: 1px solid var(--line); border-radius: var(--radius-5);
+      overflow: hidden; aspect-ratio: 3 / 2; display: grid; place-items: center;
+    }
+    /* les vignettes gardent leur propre fond : on voit l'asset tel qu'il s'affiche */
+    .cm-thumb--dark { background: #0b1020; }
+    .cm-thumb--light { background: #f7f8fb; }
+    .cm-thumb--file { background: var(--surface-2); }
+    .cm-thumb--file span { font-family: var(--ff-barlow); font-size: 1.6rem; color: var(--text-muted); }
+    .cm-thumb img { width: 100%; height: 100%; object-fit: contain; }
+    .cm-vlabel { font-size: 1.1rem; letter-spacing: .08em; text-transform: uppercase;
+                 color: var(--text-muted); text-align: center; margin-block-start: 4px; }
+
+    .cm-alabel { font-family: var(--ff-barlow); font-size: 1.6rem; font-weight: 600; color: var(--fg); }
+    .cm-path { font-size: 1.3rem; margin-block: 4px 8px; }
+    .cm-path code { color: var(--accent-primary); word-break: break-all; }
+    .cm-usage { font-size: 1.4rem; color: var(--text); }
+    .cm-single { font-size: 1.25rem; color: var(--text-muted); font-style: italic; margin-block-end: 6px; }
+    .cm-note { font-size: 1.35rem; color: var(--text-muted); margin-block-start: 8px; }
+    .cm-note--top { margin-block-end: 6px; }
+    .cm-empty { font-size: 1.4rem; color: var(--text-muted); font-style: italic; }
+    .cm-reuse { font-size: 1.35rem; color: var(--text); margin-block-start: 10px;
+                background: var(--surface-2); border-radius: var(--radius-5); padding: 10px 12px; }
+    .cm-todo { font-size: 1.35rem; color: var(--text); margin-block-start: 10px;
+               background: var(--accent-secondary-soft); border-inline-start: 3px solid var(--accent-secondary);
+               border-radius: var(--radius-5); padding: 10px 12px; }
+    .cm-warn { font-size: 1.35rem; color: var(--text); margin-block-start: 10px;
+               background: var(--accent-secondary-soft); border-inline-start: 3px solid var(--accent-secondary);
+               border-radius: var(--radius-5); padding: 10px 12px; }
+
+    .cm-icons { margin-block-start: 14px; padding-block-start: 12px; border-block-start: 1px dashed var(--line); }
+    .cm-icons ul { display: grid; gap: 6px; margin-block-start: 8px; }
+    .cm-icons li { display: flex; gap: 12px; flex-wrap: wrap; font-size: 1.35rem; }
+    .cm-icons li code { color: var(--accent-primary); min-width: 26ch; }
+    .cm-icons li span { color: var(--text-muted); }
+
+    .cm-table { width: 100%; border-collapse: collapse; font-size: 1.35rem; }
+    .cm-table th { text-align: left; font-family: var(--ff-barlow); color: var(--fg);
+                   border-block-end: 1px solid var(--line); padding: 8px 10px; font-size: 1.3rem;
+                   letter-spacing: .06em; text-transform: uppercase; }
+    .cm-table td { padding: 7px 10px; border-block-end: 1px solid var(--line-soft); color: var(--text); }
+    .cm-table td code { color: var(--text); word-break: break-all; }
+    .cm-table td.num { text-align: right; color: var(--text-muted); white-space: nowrap; }
+    .cm-table tr:hover td { background: var(--surface-2); }
+    .cm-pill { font-size: 1.15rem; padding: 2px 8px; border-radius: var(--radius-pill);
+               background: var(--accent-neutral); color: var(--text); border: 1px solid var(--accent-neutral-line);
+               white-space: nowrap; }
+    .cm-scroll { overflow-x: auto; }
+  </style>
+</head>
+
+<body id="top">
+
+  <div class="cm-top">
+    <h1>Cartographie du contenu — portfolio Aymen Hannani</h1>
+    <span class="cm-badge">Page interne · noindex</span>
+    <a href="./index.html">→ index.html</a>
+    <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="Basculer le thème">
+      <ion-icon name="sunny-outline" class="icon-to-light"></ion-icon>
+      <ion-icon name="moon-outline" class="icon-to-dark"></ion-icon>
+    </button>
+  </div>
+
+  <div class="cm-wrap">
+
+    <p class="cm-intro">
+      Référence interne : <strong>quelle section du site utilise quel asset</strong>. Non destinée aux visiteurs
+      (<code>noindex</code>, aucun lien depuis <code>index.html</code>). Les vignettes conservent leur propre fond
+      (navy pour la variante dark, gris clair pour la light) afin de montrer l'asset tel qu'il s'affiche réellement,
+      quel que soit le thème de cette page. Généré le 2026-07-20 à partir d'un scan
+      de <code>index.html</code> + <code>assets/css/style.css</code>.
+    </p>
+
+    <div class="cm-stats">
+      <div class="cm-stat"><b>24</b><span>fichiers réellement utilisés</span></div>
+      <div class="cm-stat"><b>81</b><span>fichiers orphelins</span></div>
+      <div class="cm-stat"><b>71.8 Mo</b><span>poids mort sur disque</span></div>
+      <div class="cm-stat"><b>4</b><span>TODO de remplacement ouverts</span></div>
+    </div>
+
+    
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>Header / chrome global</h2>
+      <code class="cm-id">(hors section — &lt;head&gt; + .header)</code>
+    </header>
+    <p class="cm-note cm-note--top">Assets chargés sur toute la page, indépendamment de la section visible.</p>
+    <div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="Logo1.png" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">fichier unique</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Favicon</p>
+        <p class="cm-path"><code>Logo1.png</code></p>
+        <p class="cm-single">Fichier unique — pas de variante de thème.</p>
+        <p class="cm-usage"><code>&lt;link rel="shortcut icon"&gt;</code> dans le &lt;head&gt;</p>
+        
+        <p class="cm-warn">⚠ Le code référence <code>./logo1.png</code> (l minuscule) mais le fichier sur disque est <code>Logo1.png</code>. Fonctionne sur Windows/macOS, <strong>404 sur un hébergement Linux</strong> (Netlify). À corriger.</p>
+        
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-thumb cm-thumb--file"><span>PDF</span></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">CV téléchargeable</p>
+        <p class="cm-path"><code>pdf/CV-Aymen-Hannani.pdf</code></p>
+        <p class="cm-usage">Bouton « Download CV » du header — <code>&lt;a download&gt;</code></p>
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/55.png" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">fichier unique</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Image Open Graph / Twitter</p>
+        <p class="cm-path"><code>assets/images/55.png</code></p>
+        <p class="cm-single">Fichier unique — pas de variante de thème.</p>
+        <p class="cm-usage"><code>og:image</code> et <code>twitter:image</code> — <strong>même fichier que le headshot du Hero</strong> (réutilisé, pas dupliqué)</p>
+        
+        
+        
+      </div>
+    </div>
+    
+    
+    
+  </section>
+
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>Hero</h2>
+      <code class="cm-id">#home</code>
+    </header>
+    
+    <div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/55.png" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">fichier unique</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Headshot / photo de profil</p>
+        <p class="cm-path"><code>assets/images/55.png</code></p>
+        <p class="cm-single">Fichier unique — pas de variante de thème.</p>
+        <p class="cm-usage"><code>.hero-photo &gt; img</code> — portrait encadré à droite</p>
+        <p class="cm-note">Réutilisé comme image Open Graph (voir bloc précédent).</p>
+        
+        <p class="cm-todo">TODO — TODO déjà présent ligne 183 d'index.html : « swap 55.png for Aymen Hannani's own headshot — a square crop works best here ». Un headshot réel a depuis été mis en place dans ce fichier ; le commentaire TODO n'a pas été retiré.</p>
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/bg3.png" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">fichier unique</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Fond « circuit » du Hero</p>
+        <p class="cm-path"><code>assets/images/bg3.png</code></p>
+        <p class="cm-single">Fichier unique — pas de variante de thème.</p>
+        <p class="cm-usage">CSS uniquement — <code>.hero::before { background-image }</code>, opacité 0.18</p>
+        <p class="cm-note">Pas de variante light séparée : c'est un raster bleu retourné par filtre CSS (<code>invert(1) hue-rotate(150deg)</code>) en thème clair. Seul asset thématisé par filtre plutôt que par second fichier.</p>
+        
+        
+      </div>
+    </div>
+    <p class="cm-note">Les 3 chips stat (7+ / PL-300 / AR·FR·EN) sont 100 % CSS — aucun asset image.</p>
+    
+    <div class="cm-icons"><p class="cm-alabel">Icônes (ionicons, CDN — aucun fichier local)</p><ul><li><code>location-outline</code><span>Ligne « Based in Casablanca, Morocco »</span></li><li><code>sunny-outline / moon-outline</code><span>Bouton bascule de thème (header)</span></li><li><code>menu-outline / close-outline</code><span>Bouton menu mobile (header)</span></li></ul></div>
+  </section>
+
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>Problem</h2>
+      <code class="cm-id">#problem</code>
+    </header>
+    <p class="cm-note cm-note--top">Section entièrement typographique. <strong>Aucun asset image.</strong></p>
+    <p class="cm-empty">Aucun asset image dans cette section.</p>
+    
+    
+    
+  </section>
+
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>About / Professional Background</h2>
+      <code class="cm-id">#about</code>
+    </header>
+    
+    <div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/art-journey.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/art-journey-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Bannière « parcours »</p>
+        <p class="cm-path"><code>assets/images/art-journey.svg</code><br><code>assets/images/art-journey-light.svg</code></p>
+        
+        <p class="cm-usage"><code>.about-banner &gt; img</code> — colonne gauche, sticky sur desktop</p>
+        <p class="cm-note">Remplace <code>art-governance.svg</code> (grande coche décorative) retiré lors du passage « remplacer l'art générique ». Les deux fichiers governance sont désormais <strong>orphelins</strong>.</p>
+        
+        
+      </div>
+    </div>
+    
+    
+    
+  </section>
+
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>Experience timeline</h2>
+      <code class="cm-id">(pas d'id propre — .timeline, imbriquée dans #about)</code>
+    </header>
+    <p class="cm-note cm-note--top"><strong>À noter :</strong> l'expérience n'est pas une section autonome. C'est un <code>&lt;ol class="timeline"&gt;</code> à l'intérieur de <code>#about</code>. Il n'existe pas d'ancre <code>#experience</code>, et le menu ne pointe pas dessus.</p>
+    <p class="cm-empty">Aucun asset image dans cette section.</p>
+    <p class="cm-note">Entièrement CSS : pastilles de date (<code>--accent-neutral</code>), puces (<code>--accent-neutral-ink</code>), rail et points via <code>::before</code>. Le point du poste courant est marqué par <code>--fg</code>. Aucun asset image.</p>
+    
+    
+  </section>
+
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>Portfolio</h2>
+      <code class="cm-id">#portfolio</code>
+    </header>
+    <p class="cm-note cm-note--top">6 cartes. Chaque illustration existe en 2 variantes ; le fond est posé en CSS via <code>[data-theme] .portfolio-card[data-project=…]</code>, pas en style inline.</p>
+    <div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/art-fabric-platform.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/art-fabric-platform-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Carte 1</p>
+        <p class="cm-path"><code>assets/images/art-fabric-platform.svg</code><br><code>assets/images/art-fabric-platform-light.svg</code></p>
+        
+        <p class="cm-usage"><code>data-project="fabric-platform"</code> — « Group-wide multi-entity data platform on Microsoft Fabric »</p>
+        
+        
+        
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/art-dashboards.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/art-dashboards-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Carte 2</p>
+        <p class="cm-path"><code>assets/images/art-dashboards.svg</code><br><code>assets/images/art-dashboards-light.svg</code></p>
+        
+        <p class="cm-usage"><code>data-project="powerbi-suites"</code> — « Power BI dashboard suites: Procurement, Group KPIs and Lead Time »</p>
+        
+        
+        
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/art-data-model.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/art-data-model-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Carte 3</p>
+        <p class="cm-path"><code>assets/images/art-data-model.svg</code><br><code>assets/images/art-data-model-light.svg</code></p>
+        
+        <p class="cm-usage"><code>data-project="data-modeling"</code> — « Star-schema models, data quality rules and lineage documentation »</p>
+        
+        
+        
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/art-automation.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/art-automation-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Carte 4</p>
+        <p class="cm-path"><code>assets/images/art-automation.svg</code><br><code>assets/images/art-automation-light.svg</code></p>
+        
+        <p class="cm-usage"><code>data-project="python-automation"</code> — « Python &amp; Excel automation of recurring documentation and controls »</p>
+        
+        
+        
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/art-stock-market.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/art-stock-market-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Carte 5</p>
+        <p class="cm-path"><code>assets/images/art-stock-market.svg</code><br><code>assets/images/art-stock-market-light.svg</code></p>
+        
+        <p class="cm-usage"><code>data-project="joutyat-la-bourse"</code> — « Joutyat La Bourse (جوطية البورصة) — Moroccan stock-market YouTube channel »</p>
+        
+        
+        
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/art-coaching.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/art-coaching-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Carte 6</p>
+        <p class="cm-path"><code>assets/images/art-coaching.svg</code><br><code>assets/images/art-coaching-light.svg</code></p>
+        
+        <p class="cm-usage"><code>data-project="mediamind-academy"</code> — « MediaMind Academy — 1-on-1 Power BI &amp; data coaching, Casablanca »</p>
+        
+        
+        
+      </div>
+    </div>
+    
+    <p class="cm-reuse">↻ Réutilisation — Les 6 mêmes SVG sont <strong>réutilisés</strong> en grand format dans la modale projet (<code>[data-modal-art]</code>), servis via <code>data-art</code> / <code>data-art-light</code>. Aucune image supplémentaire pour la modale.</p>
+    <div class="cm-icons"><p class="cm-alabel">Icônes (ionicons, CDN — aucun fichier local)</p><ul><li><code>arrow-forward</code><span>Flèche « View Details » — ×6, une par carte</span></li></ul></div>
+  </section>
+
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>Process</h2>
+      <code class="cm-id">#process</code>
+    </header>
+    <p class="cm-note cm-note--top">Section entièrement typographique. Numérotation par compteurs CSS. <strong>Aucun asset image.</strong></p>
+    <p class="cm-empty">Aucun asset image dans cette section.</p>
+    
+    
+    
+  </section>
+
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>Skills</h2>
+      <code class="cm-id">#skills</code>
+    </header>
+    <p class="cm-note cm-note--top">Chips et groupes en CSS pur. <strong>Aucun asset image.</strong></p>
+    <p class="cm-empty">Aucun asset image dans cette section.</p>
+    
+    
+    <div class="cm-icons"><p class="cm-alabel">Icônes (ionicons, CDN — aucun fichier local)</p><ul><li><code>speedometer-outline</code><span>Chip résultat « Faster decisions from live dashboards »</span></li><li><code>hourglass-outline</code><span>Chip résultat « Less manual reporting »</span></li><li><code>shield-checkmark-outline</code><span>Chip résultat « Data trusted enough to act on »</span></li><li><code>people-outline</code><span>Chip résultat « Teams that actually use what's built »</span></li></ul></div>
+  </section>
+
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>Contact</h2>
+      <code class="cm-id">#contact</code>
+    </header>
+    <p class="cm-note cm-note--top">Formulaire + liste de contact. <strong>Aucun asset image.</strong></p>
+    <p class="cm-empty">Aucun asset image dans cette section.</p>
+    
+    
+    <div class="cm-icons"><p class="cm-alabel">Icônes (ionicons, CDN — aucun fichier local)</p><ul><li><code>location</code><span>Adresse — Casablanca, Morocco</span></li><li><code>mail</code><span>aymenhannani@gmail.com</span></li><li><code>call</code><span>+212 615 148254</span></li><li><code>logo-linkedin</code><span>linkedin.com/in/aymen-hannani</span></li></ul></div>
+  </section>
+
+  <section class="cm-card">
+    <header class="cm-head">
+      <h2>Certifications</h2>
+      <code class="cm-id">#blog</code>
+    </header>
+    <p class="cm-note cm-note--top"><strong>À noter :</strong> l'id est resté <code>#blog</code> (hérité du template) alors que la section s'intitule « Certifications ». Le lien de nav pointe bien sur <code>#blog</code>.</p>
+    <div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/cert-pl300.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/cert-pl300-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Badge PL-300</p>
+        <p class="cm-path"><code>assets/images/cert-pl300.svg</code><br><code>assets/images/cert-pl300-light.svg</code></p>
+        
+        <p class="cm-usage">Carte 1 — « Microsoft PL-300: Power BI Data Analyst Associate »</p>
+        
+        
+        <p class="cm-todo">TODO — TODO ligne 861 : « swap for the official PL-300 badge / certificate image when available ». <strong>Placeholder dessiné</strong>, pas le vrai badge Microsoft.</p>
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/cert-datacamp.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/cert-datacamp-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Badge DataCamp</p>
+        <p class="cm-path"><code>assets/images/cert-datacamp.svg</code><br><code>assets/images/cert-datacamp-light.svg</code></p>
+        
+        <p class="cm-usage">Carte 2 — « DataCamp — Data Analyst Track (Python / SQL) »</p>
+        
+        
+        <p class="cm-todo">TODO — TODO ligne 876 : « swap for the official DataCamp certificate image when available ». <strong>Placeholder dessiné.</strong></p>
+      </div>
+    </div>
+<div class="cm-asset">
+      <div class="cm-previews"><div class="cm-variant"><div class="cm-thumb cm-thumb--dark"><img src="assets/images/cert-github.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante dark</p></div><div class="cm-variant"><div class="cm-thumb cm-thumb--light"><img src="assets/images/cert-github-light.svg" alt="" loading="lazy"></div>
+        <p class="cm-vlabel">variante light</p></div></div>
+      <div class="cm-meta">
+        <p class="cm-alabel">Badge GitHub Foundations</p>
+        <p class="cm-path"><code>assets/images/cert-github.svg</code><br><code>assets/images/cert-github-light.svg</code></p>
+        
+        <p class="cm-usage">Carte 3 — « GitHub Foundations »</p>
+        
+        
+        <p class="cm-todo">TODO — TODO ligne 892 : « swap for the official GitHub Foundations badge when available ». <strong>Placeholder dessiné.</strong></p>
+      </div>
+    </div>
+    
+    
+    
+  </section>
+
+    <section class="cm-card" id="orphelins">
+      <header class="cm-head">
+        <h2>Assets orphelins</h2>
+        <code class="cm-id">81 fichiers · 71.8 Mo</code>
+      </header>
+      <p class="cm-note cm-note--top">
+        Présents sur le disque mais <strong>référencés nulle part</strong> dans <code>index.html</code> ni
+        <code>assets/css/style.css</code>. Détection par nom de fichier, insensible à la casse.
+        Rien n'a été supprimé — cette liste est là pour un nettoyage décidé par toi.
+        Attention : <code>pdf/CV-Oussama-Lahlimi.pdf</code> et les photos personnelles de l'ancien propriétaire
+        resteraient publiquement accessibles en cas de déploiement.
+      </p>
+      <div class="cm-scroll">
+        <table class="cm-table">
+          <thead><tr><th>Fichier</th><th>Catégorie</th><th class="num">Taille</th></tr></thead>
+          <tbody>
+            <tr><td><code>assets/images/image3.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">17805 Ko</td></tr>
+            <tr><td><code>assets/images/image10.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">9389 Ko</td></tr>
+            <tr><td><code>assets/images/image2.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">6976 Ko</td></tr>
+            <tr><td><code>assets/images/19.jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">5146 Ko</td></tr>
+            <tr><td><code>assets/images/image1.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">3826 Ko</td></tr>
+            <tr><td><code>assets/images/image6.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">3415 Ko</td></tr>
+            <tr><td><code>assets/images/18.jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">3075 Ko</td></tr>
+            <tr><td><code>assets/images/16.jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">2340 Ko</td></tr>
+            <tr><td><code>assets/images/17.jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">2124 Ko</td></tr>
+            <tr><td><code>assets/images/15.png</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">2091 Ko</td></tr>
+            <tr><td><code>assets/images/20.jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">1939 Ko</td></tr>
+            <tr><td><code>assets/images/b.png</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">1707 Ko</td></tr>
+            <tr><td><code>assets/images/33.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">1033 Ko</td></tr>
+            <tr><td><code>assets/images/55.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">1033 Ko</td></tr>
+            <tr><td><code>assets/images/Profil22.png</code></td><td><span class="cm-pill">Ancien propriétaire</span></td><td class="num">1010 Ko</td></tr>
+            <tr><td><code>assets/images/Build a computer vision app with Azure Cognitive_page-0001.jpg</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">909 Ko</td></tr>
+            <tr><td><code>assets/images/Agile Project Management_page-0001.jpg</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">803 Ko</td></tr>
+            <tr><td><code>assets/images/image5.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">551 Ko</td></tr>
+            <tr><td><code>assets/images/z9cfiq5g.png</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">495 Ko</td></tr>
+            <tr><td><code>assets/images/rf23vx56.png</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">469 Ko</td></tr>
+            <tr><td><code>assets/images/IMG_20221219_014336_564-removebg-preview (2).png</code></td><td><span class="cm-pill">Ancien propriétaire</span></td><td class="num">449 Ko</td></tr>
+            <tr><td><code>pdf/CV-Oussama-Lahlimi.pdf</code></td><td><span class="cm-pill">Ancien propriétaire</span></td><td class="num">401 Ko</td></tr>
+            <tr><td><code>assets/images/Security and Privacy for Big Data - Part 1.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">323 Ko</td></tr>
+            <tr><td><code>assets/images/The Data Scientist’s Toolbox.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">321 Ko</td></tr>
+            <tr><td><code>assets/images/Business Analysis &amp; Process Management.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">317 Ko</td></tr>
+            <tr><td><code>assets/images/Agile Requirements Foundations_page-0001.jpg</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">313 Ko</td></tr>
+            <tr><td><code>assets/images/Security and Privacy for Big Data - Part 2.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">312 Ko</td></tr>
+            <tr><td><code>assets/images/Profil2.png</code></td><td><span class="cm-pill">Ancien propriétaire</span></td><td class="num">311 Ko</td></tr>
+            <tr><td><code>assets/images/MongoDB.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">307 Ko</td></tr>
+            <tr><td><code>assets/images/Data Modeling in Power BI.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">302 Ko</td></tr>
+            <tr><td><code>assets/images/RPA UiPath.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">300 Ko</td></tr>
+            <tr><td><code>assets/images/dev.png</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">278 Ko</td></tr>
+            <tr><td><code>assets/images/image4.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">274 Ko</td></tr>
+            <tr><td><code>assets/images/photo_Oussama_LAHLIMI.png</code></td><td><span class="cm-pill">Ancien propriétaire</span></td><td class="num">227 Ko</td></tr>
+            <tr><td><code>assets/images/ia.png</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">211 Ko</td></tr>
+            <tr><td><code>assets/images/bi.png</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">182 Ko</td></tr>
+            <tr><td><code>assets/images/React + Redux .png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">120 Ko</td></tr>
+            <tr><td><code>assets/images/html.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">115 Ko</td></tr>
+            <tr><td><code>assets/images/mouad.jpg</code></td><td><span class="cm-pill">Ancien propriétaire</span></td><td class="num">110 Ko</td></tr>
+            <tr><td><code>assets/images/portfolio-4.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">108 Ko</td></tr>
+            <tr><td><code>assets/images/blog-3.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">107 Ko</td></tr>
+            <tr><td><code>assets/images/AdobeStock_808477473_Preview (1).jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">102 Ko</td></tr>
+            <tr><td><code>assets/images/Swift 4.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">101 Ko</td></tr>
+            <tr><td><code>assets/images/Machine Learning.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">100 Ko</td></tr>
+            <tr><td><code>assets/images/php .png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">99 Ko</td></tr>
+            <tr><td><code>assets/images/AdobeStock_245601545_Preview.jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">98 Ko</td></tr>
+            <tr><td><code>assets/images/blog-2.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">98 Ko</td></tr>
+            <tr><td><code>assets/images/AdobeStock_732280209_Preview.jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">97 Ko</td></tr>
+            <tr><td><code>assets/images/Data Science.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">96 Ko</td></tr>
+            <tr><td><code>assets/images/AdobeStock_791046168_Preview.jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">95 Ko</td></tr>
+            <tr><td><code>logo.png</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">92 Ko</td></tr>
+            <tr><td><code>assets/images/blog-1.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">88 Ko</td></tr>
+            <tr><td><code>assets/images/BA.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">64 Ko</td></tr>
+            <tr><td><code>assets/images/deep.png</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">63 Ko</td></tr>
+            <tr><td><code>assets/images/logg.png</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">61 Ko</td></tr>
+            <tr><td><code>assets/images/Power shell.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">61 Ko</td></tr>
+            <tr><td><code>assets/images/node.png</code></td><td><span class="cm-pill">Anciens certificats</span></td><td class="num">55 Ko</td></tr>
+            <tr><td><code>assets/images/insta.png</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">50 Ko</td></tr>
+            <tr><td><code>assets/images/image8.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">49 Ko</td></tr>
+            <tr><td><code>assets/images/hero-banner.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">48 Ko</td></tr>
+            <tr><td><code>assets/images/image9.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">47 Ko</td></tr>
+            <tr><td><code>assets/images/image7.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">41 Ko</td></tr>
+            <tr><td><code>assets/images/absolute-image.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">37 Ko</td></tr>
+            <tr><td><code>assets/images/data.jpg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">37 Ko</td></tr>
+            <tr><td><code>assets/images/bit.jfif</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">33 Ko</td></tr>
+            <tr><td><code>assets/images/AdobeStock_808477473_Preview.jpeg</code></td><td><span class="cm-pill">Stock / ancien contenu</span></td><td class="num">32 Ko</td></tr>
+            <tr><td><code>assets/images/log.png</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">32 Ko</td></tr>
+            <tr><td><code>assets/images/log2.png</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">30 Ko</td></tr>
+            <tr><td><code>assets/images/portfolio-1.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">30 Ko</td></tr>
+            <tr><td><code>assets/images/log1.png</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">28 Ko</td></tr>
+            <tr><td><code>assets/images/about-banner.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">27 Ko</td></tr>
+            <tr><td><code>assets/images/twi.png</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">19 Ko</td></tr>
+            <tr><td><code>assets/images/anwar.jpg</code></td><td><span class="cm-pill">Ancien propriétaire</span></td><td class="num">17 Ko</td></tr>
+            <tr><td><code>assets/images/hero-bg.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">17 Ko</td></tr>
+            <tr><td><code>assets/images/portfolio-2.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">16 Ko</td></tr>
+            <tr><td><code>assets/images/portfolio-3.jpg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">16 Ko</td></tr>
+            <tr><td><code>assets/images/link.png</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">14 Ko</td></tr>
+            <tr><td><code>assets/images/rotate-img.png</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">6 Ko</td></tr>
+            <tr><td><code>assets/images/art-governance-light.svg</code></td><td><span class="cm-pill">Art remplacé</span></td><td class="num">2 Ko</td></tr>
+            <tr><td><code>assets/images/art-governance.svg</code></td><td><span class="cm-pill">Art remplacé</span></td><td class="num">2 Ko</td></tr>
+            <tr><td><code>favicon.svg</code></td><td><span class="cm-pill">Template d'origine</span></td><td class="num">1 Ko</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.querySelector("[data-theme-toggle]");
+      if (!btn) return;
+      var sync = function (t) {
+        root.setAttribute("data-theme", t);
+        btn.setAttribute("aria-pressed", t === "light" ? "true" : "false");
+        btn.setAttribute("aria-label", "Basculer vers le thème " + (t === "light" ? "sombre" : "clair"));
+      };
+      sync(root.getAttribute("data-theme") === "light" ? "light" : "dark");
+      btn.addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+        sync(next);
+        try { localStorage.setItem("theme", next); } catch (e) { }
+      });
+    })();
+  </script>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>

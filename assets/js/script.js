@@ -3,6 +3,69 @@
 
 
 /**
+ * theme toggle
+ *
+ * The <html data-theme> attribute is already set by the bootstrap script in
+ * <head> (before first paint, so there is no flash). This wires the button,
+ * persists the choice, and swaps the artwork that ships in two variants.
+ *
+ * Precedence: stored choice > prefers-color-scheme > dark (the default).
+ */
+
+const root = document.documentElement;
+const themeToggle = document.querySelector("[data-theme-toggle]");
+const themeLabel = document.querySelector("[data-theme-label]");
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+const THEME_META = { dark: "#0b1020", light: "#f7f8fb" };
+
+/* <img> elements that ship a light counterpart via data-src-light */
+const themedImages = [];
+
+document.querySelectorAll("[data-src-light]").forEach(function (img) {
+  themedImages.push({ el: img, dark: img.getAttribute("src"), light: img.dataset.srcLight });
+});
+
+const applyTheme = function (theme) {
+  root.setAttribute("data-theme", theme);
+
+  for (let i = 0; i < themedImages.length; i++) {
+    const it = themedImages[i];
+    it.el.src = theme === "light" ? it.light : it.dark;
+  }
+
+  if (themeMeta) themeMeta.setAttribute("content", THEME_META[theme]);
+
+  if (themeToggle) {
+    const next = theme === "light" ? "dark" : "light";
+    themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+    if (themeLabel) themeLabel.textContent = "Switch to " + next + " theme";
+    themeToggle.setAttribute("aria-label", "Switch to " + next + " theme");
+  }
+};
+
+// sync everything to whatever the bootstrap script decided
+applyTheme(root.getAttribute("data-theme") === "light" ? "light" : "dark");
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", function () {
+    const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+
+    // cross-fade, but never fight a reduced-motion preference
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!still) {
+      root.classList.add("theme-transition");
+      window.setTimeout(function () { root.classList.remove("theme-transition"); }, 400);
+    }
+
+    applyTheme(next);
+    try { localStorage.setItem("theme", next); } catch (e) { }
+  });
+}
+
+
+
+/**
  * navbar toggle
  */
 
@@ -52,6 +115,53 @@ window.addEventListener("scroll", function () {
 
 
 /**
+ * active nav state
+ *
+ * Marks the nav link for the section currently in view, so the teal
+ * "action" colour also signals where you are.
+ */
+
+const spySections = [];
+
+for (let i = 0; i < navbarLinks.length; i++) {
+  const href = navbarLinks[i].getAttribute("href") || "";
+  if (href.charAt(0) !== "#" || href === "#") continue;
+  const section = document.querySelector(href);
+  if (section) spySections.push({ link: navbarLinks[i], section: section });
+}
+
+if (spySections.length && "IntersectionObserver" in window) {
+  const visible = new Set();
+
+  const setActive = function () {
+    let current = null;
+
+    // topmost section currently intersecting wins
+    for (let i = 0; i < spySections.length; i++) {
+      if (visible.has(spySections[i].section)) { current = spySections[i]; break; }
+    }
+
+    for (let i = 0; i < spySections.length; i++) {
+      spySections[i].link.classList.toggle("active", spySections[i] === current);
+    }
+  };
+
+  const observer = new IntersectionObserver(function (entries) {
+    for (let i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) visible.add(entries[i].target);
+      else visible.delete(entries[i].target);
+    }
+    setActive();
+  }, { rootMargin: "-45% 0px -45% 0px" });
+
+  for (let i = 0; i < spySections.length; i++) observer.observe(spySections[i].section);
+}
+
+
+
+
+
+/**
  * project detail dialog
  *
  * Each portfolio card is a <button data-project="...">. Opening reads the
@@ -89,7 +199,8 @@ const openModal = function (card) {
   modalTitle.textContent = title ? title.textContent.trim() : "";
   modalTag.textContent = subtitle ? subtitle.textContent.trim() : "";
 
-  modalArt.src = card.dataset.art || "";
+  const lightTheme = root.getAttribute("data-theme") === "light";
+  modalArt.src = (lightTheme && card.dataset.artLight) || card.dataset.art || "";
   // the artwork repeats the title visually, so keep it out of the a11y tree
   modalArt.alt = "";
 

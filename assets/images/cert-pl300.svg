@@ -5,8 +5,8 @@
       <stop offset="1" stop-color="#1a2440"/>
     </linearGradient>
     <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f4623a"/>
-      <stop offset="1" stop-color="#e0431f"/>
+      <stop offset="0" stop-color="#f0a830"/>
+      <stop offset="1" stop-color="#d18a1c"/>
     </linearGradient>
   </defs>
 
@@ -19,17 +19,17 @@
     <circle r="150" fill="none" stroke="#ffffff" stroke-opacity=".1" stroke-width="2"/>
     <circle r="118" fill="#1b2540" stroke="url(#ribbon)" stroke-width="6"/>
     <!-- mini bar chart emblem -->
-    <g fill="#4d94f0" fill-opacity=".8">
+    <g fill="#3d4874" fill-opacity=".8">
       <rect x="-58" y="-6" width="26" height="60" rx="4"/>
       <rect x="-16" y="-40" width="26" height="94" rx="4"/>
     </g>
-    <rect x="26" y="-70" width="26" height="124" rx="4" fill="#f4623a"/>
+    <rect x="26" y="-70" width="26" height="124" rx="4" fill="#f0a830"/>
     <path d="M-58 70 h110" stroke="#ffffff" stroke-opacity=".3" stroke-width="4" stroke-linecap="round"/>
   </g>
 
   <g font-family="Barlow, Arial, sans-serif" text-anchor="middle">
     <text x="590" y="592" fill="#ffffff" font-size="52" font-weight="600">Microsoft Certified: PL-300</text>
-    <text x="590" y="646" fill="#f4623a" font-size="34" font-weight="600">Power BI Data Analyst Associate</text>
-    <text x="590" y="712" fill="#8fb4e8" font-size="28">Aymen Hannani</text>
+    <text x="590" y="646" fill="#f0a830" font-size="34" font-weight="600">Power BI Data Analyst Associate</text>
+    <text x="590" y="712" fill="#b9bcc9" font-size="28">Aymen Hannani</text>
   </g>
 </svg>

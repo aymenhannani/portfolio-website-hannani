@@ -4,7 +4,7 @@
 
 /**
  * Base template (c) codewithsadee — heavily reworked for Aymen Hannani.
- * Design system: deep navy/charcoal base + a single coral accent.
+ * Design system: deep navy/charcoal base, teal primary accent, amber highlight.
  */
 
 
@@ -21,45 +21,73 @@
    * surfaces step from darkest (page) to lightest (raised card)
    */
 
+  /**
+   * SURFACES — dark navy base, each tier one step lighter.
+   * Lifted one step in the "breathing room" pass for relief; still dark.
+   */
+
   --bg: #0b1020;
   --bg-rgb: 11, 16, 32;
-  --surface: #111830;
-  --surface-2: #18213c;
-  --surface-3: #1e2847;
-  --line: #26304d;
+  --surface: #151d38;   /* was #111830 */
+  --surface-2: #1d2748; /* was #18213c */
+  --surface-3: #242f55; /* was #1e2847 */
+  --line: #2f3a5e;      /* was #26304d */
   --line-soft: rgba(255, 255, 255, 0.07);
-
-  --fg: #f2f5fa;
-  /* body copy — lightened and desaturated for comfortable long-form reading */
-  --muted: #d5dbe6;   /* 13.6:1 on --bg, 12.6:1 on --surface */
-  --muted-2: #a8b2c6; /*  8.9:1 on --bg,  8.2:1 on --surface */
+  --backdrop: rgba(11, 16, 32, 0.82);
+  --ring: rgba(255, 255, 255, 0.08);
 
   /**
-   * ACCENT HIERARCHY
-   * --accent is reserved for the primary CTA and stat numbers, plus
-   * hover/focus feedback. Repeated decorative marks (bullet dots, date
-   * pills, category tags, icon wells) use the neutral tokens below so the
-   * CTA stays the loudest thing on the page.
+   * TEXT — warmed and lifted so long paragraphs read easily on navy
    */
-  --accent: #f4623a;
-  --accent-rgb: 244, 98, 58;
-  --accent-strong: #e04a20;
-  --accent-soft: rgba(244, 98, 58, 0.12);
-  --accent-line: rgba(244, 98, 58, 0.35);
 
-  /* quiet marks: dots, rails, pills, small decorative rules */
-  --mark: var(--muted-2);
-  --chip-bg: var(--surface-2);
+  --fg: #f4f6fa;
+  --text: #e4e2e4;       /* was #d5dbe6 — warmer, lighter. 15.0:1 on --bg */
+  --text-muted: #b9bcc9; /* was #a8b2c6 — warmer, lighter. 10.2:1 on --bg */
+
+  /**
+   * ==========================================================
+   * ACCENT SYSTEM — three roles, one job each. No fourth colour.
+   * ==========================================================
+   *
+   * PRIMARY   (teal)  = ACTION.       CTAs, active nav, hover/focus, links.
+   * SECONDARY (amber) = ACHIEVEMENT.  Certifications and credentials ONLY.
+   * NEUTRAL   (slate) = STRUCTURE.    Repeating elements that must recede.
+   *
+   * Each role has a fill and, where the colour must also be legible ink,
+   * a lightened tint OF THE SAME HUE. Those tints are not extra accents —
+   * #3d4874 as text scores 2.14:1 on navy and cannot be used as ink.
+   */
+
+  /* --- PRIMARY: teal — action ------------------------------------- */
+  --accent-primary: #2dd4bf;            /* 10.17:1 on --bg */
+  --accent-primary-rgb: 45, 212, 191;
+  --accent-primary-strong: #22b3a2;     /* hover */
+  --accent-primary-soft: rgba(45, 212, 191, 0.12);
+  --accent-primary-line: rgba(45, 212, 191, 0.35);
+  --accent-primary-ink: #04201c;        /* text on a solid teal fill — 9.2:1 */
+
+  /* --- SECONDARY: amber — achievement / credential ----------------- */
+  --accent-secondary: #f0a830;          /* 9.33:1 on --bg — passes AA as small text */
+  --accent-secondary-soft: rgba(240, 168, 48, 0.12);
+  --accent-secondary-line: rgba(240, 168, 48, 0.42);
+
+  /* --- NEUTRAL: slate-blue — repeating / structural ---------------- */
+  --accent-neutral: #3d4874;            /* FILL only: pills, chips, rails, wells */
+  --accent-neutral-line: #4a568a;
+  --accent-neutral-ink: #7d8ab8;        /* same hue, legible as ink — 5.59:1 on --bg */
 
   /* legacy aliases kept so any stray rule stays on-system */
+  --chip-bg: var(--accent-neutral);
+  --muted: var(--text);
+  --muted-2: var(--text-muted);
   --white: var(--fg);
   --black: #000;
-  --orange-soda: var(--accent);
+  --orange-soda: var(--accent-primary);
   --space-cadet: var(--bg);
   --independence: var(--surface-2);
-  --cadet-blue-crayola: var(--muted);
-  --manatee: var(--muted-2);
-  --klein-blue: var(--accent);
+  --cadet-blue-crayola: var(--text);
+  --manatee: var(--text-muted);
+  --klein-blue: var(--accent-primary);
   --midnight-blue: var(--surface);
 
   /**
@@ -94,7 +122,7 @@
    * spacing
    */
 
-  --section-padding: 72px;
+  --section-padding: 92px; /* +28% breathing room */
 
   /**
    * shadow
@@ -110,6 +138,63 @@
   --transition-1: 0.05s ease;
   --transition-2: 0.25s ease;
   --cubic-out: cubic-bezier(0.33, 0.85, 0.56, 1.02);
+
+}
+
+
+
+
+
+/*-----------------------------------*\
+  #LIGHT THEME
+\*-----------------------------------*/
+
+/**
+ * Same roles, different values. Nothing is reassigned — teal is still ACTION,
+ * amber still CREDENTIAL, slate still STRUCTURAL. Only the values change.
+ *
+ * Both accents are darkened because the dark-mode values fail on light:
+ *   teal  #2dd4bf ->  1.4:1  |  amber #f0a830 -> 1.91:1
+ * The suggested #0f9488 also falls short as text (3.52:1), so ACTION uses
+ * #0b7a70 (4.90:1) which doubles as a fill that carries white ink at 5.21:1.
+ */
+
+[data-theme="light"] {
+
+  --bg: #f7f8fb;              /* deliberately not #ffffff */
+  --bg-rgb: 247, 248, 251;
+  --surface: #ffffff;
+  --surface-2: #eef0f6;
+  --surface-3: #e4e7f0;
+  --line: #d5dae7;
+  --line-soft: rgba(19, 24, 41, 0.09);
+  --backdrop: rgba(19, 24, 41, 0.45);
+  --ring: rgba(19, 24, 41, 0.12);
+
+  --fg: #131829;              /* 16.61:1 on --bg */
+  --text: #2b3245;            /* 12.02:1 on --bg */
+  --text-muted: #59617a;      /*  5.79:1 on --bg */
+
+  /* --- PRIMARY: teal — action ------------------------------------- */
+  --accent-primary: #0b7a70;            /* 4.90:1 on --bg */
+  --accent-primary-rgb: 11, 122, 112;
+  --accent-primary-strong: #08635b;     /* hover */
+  --accent-primary-soft: rgba(11, 122, 112, 0.10);
+  --accent-primary-line: rgba(11, 122, 112, 0.38);
+  --accent-primary-ink: #ffffff;        /* white on teal fill — 5.21:1 */
+
+  /* --- SECONDARY: amber — achievement / credential ----------------- */
+  --accent-secondary: #8f5b00;          /* 5.40:1 on --bg, 5.03:1 on --surface-2 */
+  --accent-secondary-soft: rgba(143, 91, 0, 0.10);
+  --accent-secondary-line: rgba(143, 91, 0, 0.48);
+
+  /* --- NEUTRAL: slate-blue — repeating / structural ---------------- */
+  --accent-neutral: #e2e6f2;            /* FILL: pills, chips, wells */
+  --accent-neutral-line: #c7cee2;
+  --accent-neutral-ink: #545f80;        /* 5.95:1 on --bg */
+
+  --shadow: 0 10px 30px rgba(19, 24, 41, 0.08);
+  --shadow-lg: 0 24px 60px rgba(19, 24, 41, 0.14);
 
 }
 
@@ -147,6 +232,12 @@ ion-icon { display: block; }
 
 img { height: auto; }
 
+/* the blanket display:block above is meant for the hero title's <strong>;
+   inside body copy it wrongly forces emphasis onto its own line */
+p strong,
+dd strong,
+li strong { display: inline; }
+
 ion-icon {
   pointer-events: none;
   color: var(--fg);
@@ -182,7 +273,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-primary);
   outline-offset: 3px;
 }
 
@@ -196,6 +287,18 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover { background-color: var(--line); }
+
+/**
+ * Theme cross-fade. The class is added by JS only for the duration of a
+ * toggle, so there is no transition cost on load or on normal interaction.
+ */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.35s ease, border-color 0.35s ease,
+              color 0.35s ease, fill 0.35s ease, box-shadow 0.35s ease !important;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -234,16 +337,16 @@ body {
 /* solid accent CTA */
 .btn-primary,
 .btn-primary.blue {
-  background-color: var(--accent);
-  color: #1a0d07;
-  border-color: var(--accent);
+  background-color: var(--accent-primary);
+  color: var(--accent-primary-ink);
+  border-color: var(--accent-primary);
 }
 
 .btn-primary:is(:hover, :focus-visible),
 .btn-primary.blue:is(:hover, :focus-visible) {
-  background-color: var(--accent-strong);
-  border-color: var(--accent-strong);
-  color: var(--fg);
+  background-color: var(--accent-primary-strong);
+  border-color: var(--accent-primary-strong);
+  color: var(--accent-primary-ink); /* white on teal would only be 2.7:1 */
   transform: translateY(-2px);
 }
 
@@ -255,8 +358,8 @@ body {
 }
 
 .btn:not(.btn-primary):is(:hover, :focus-visible) {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
   transform: translateY(-2px);
 }
 
@@ -271,8 +374,9 @@ body {
 /* consistent, quiet separation between sections */
 .section + .section { border-block-start: 1px solid var(--line-soft); }
 
+/* eyebrow labels — STRUCTURAL, slate */
 .section-subtitle {
-  color: var(--muted-2);
+  color: var(--accent-neutral-ink);
   font-family: var(--ff-barlow);
   font-size: var(--fs-6);
   font-weight: var(--fw-700);
@@ -300,6 +404,7 @@ body {
 .section-text {
   max-width: 68ch;
   margin-inline: auto;
+  line-height: 1.8; /* easier scanning in long paragraphs */
 }
 
 
@@ -323,15 +428,17 @@ body {
 }
 
 .header.nav-active {
-  height: 385px; /* 8 nav rows + the CV button */
+  height: 385px; /* 7 nav rows + the CV button */
   transition-duration: 0.35s;
 }
 
 .header > .container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 14px;
 }
+
+.logo-link { margin-inline-end: auto; }
 
 .logo {
   color: var(--fg);
@@ -372,9 +479,45 @@ body {
   transition: var(--transition-1);
 }
 
-.navbar-link:is(:hover, :focus-visible) { color: var(--accent); }
+/* ACTION — hover, focus and the active section */
+.navbar-link:is(:hover, :focus-visible),
+.navbar-link.active { color: var(--accent-primary); }
 
 .navbar .btn { margin-block-start: 15px; }
+
+/* --- theme toggle ------------------------------------------------- */
+
+.theme-toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  transition: var(--transition-2);
+}
+
+.theme-toggle ion-icon {
+  font-size: 2rem;
+  color: var(--accent-primary);
+}
+
+.theme-toggle:is(:hover, :focus-visible) { border-color: var(--accent-primary); }
+
+/* show the icon for the theme you would switch TO */
+[data-theme="dark"] .theme-toggle .icon-to-dark,
+[data-theme="light"] .theme-toggle .icon-to-light { display: none; }
+
+/* the label is for screen readers; the icon carries it visually */
+.theme-toggle-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 
 
@@ -406,6 +549,14 @@ body {
   background-size: cover;
   background-position: left center;
   opacity: 0.18;
+  /* the source artwork is blue — nudge it into the teal family */
+  filter: hue-rotate(-42deg) saturate(0.85);
+}
+
+/* the circuit art is a dark raster; on light it must be inverted and quieter */
+[data-theme="light"] .hero::before {
+  opacity: 0.16;
+  filter: invert(1) hue-rotate(150deg) saturate(0.5) brightness(1.05);
 }
 
 /* scrim so headline text always wins */
@@ -415,7 +566,7 @@ body {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(60% 55% at 78% 40%, rgba(var(--accent-rgb), 0.10), transparent 70%),
+    radial-gradient(60% 55% at 78% 40%, rgba(var(--accent-primary-rgb), 0.10), transparent 70%),
     linear-gradient(to bottom, rgba(var(--bg-rgb), 0.72), rgba(var(--bg-rgb), 0.92) 70%, var(--bg));
 }
 
@@ -430,9 +581,10 @@ body {
   gap: 8px;
   margin-inline: auto;
   max-width: max-content;
-  background-color: var(--chip-bg);
-  border: 1px solid var(--line);
-  color: var(--muted);
+  /* eyebrow tag — STRUCTURAL, slate fill with light ink */
+  background-color: var(--accent-neutral);
+  border: 1px solid var(--accent-neutral-line);
+  color: var(--text);
   font-family: var(--ff-barlow);
   font-size: 1.4rem;
   font-weight: var(--fw-600);
@@ -482,7 +634,7 @@ body {
 }
 
 .hero-location ion-icon {
-  color: var(--mark);
+  color: var(--accent-neutral-ink);
   font-size: 1.8rem;
 }
 
@@ -520,7 +672,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px var(--ring);
   pointer-events: none;
 }
 
@@ -551,15 +703,28 @@ body {
 }
 
 .stat-value {
-  color: var(--accent);
   font-family: var(--ff-barlow);
   font-size: 1.9rem;
   font-weight: var(--fw-700);
   line-height: 1.1;
 }
 
+/**
+ * one role per chip:
+ *  action     — years of experience (an ongoing, active thing)
+ *  credential — the PL-300 certification
+ *  structural — languages, a repeating factual label
+ */
+.stat--action .stat-value { color: var(--accent-primary); }
+
+.stat--credential .stat-value { color: var(--accent-secondary); }
+
+.stat--credential { border-color: var(--accent-secondary-line); }
+
+.stat--structural .stat-value { color: var(--accent-neutral-ink); }
+
 .stat-label {
-  color: var(--muted);
+  color: var(--text);
   font-size: 1.3rem;
   line-height: 1.2;
   white-space: nowrap;
@@ -638,7 +803,7 @@ body {
   font-size: 2.4rem;
   font-weight: var(--fw-700);
   line-height: 1;
-  color: var(--mark);
+  color: var(--accent-neutral-ink);
   font-variant-numeric: tabular-nums;
 }
 
@@ -726,13 +891,13 @@ body {
   height: 12px;
   border-radius: 50%;
   background-color: var(--bg);
-  border: 2px solid var(--mark);
+  border: 2px solid var(--accent-neutral-ink);
 }
 
-/* only the current role is marked out, and with light — not accent */
+/* current role marked with light, not accent — amber is credentials-only */
 .timeline-item:first-child::before {
   border-color: var(--fg);
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 5px var(--ring);
 }
 
 .timeline-card {
@@ -744,20 +909,21 @@ body {
 }
 
 .timeline-card:hover {
-  border-color: var(--accent-line);
+  border-color: var(--accent-primary-line);
   background-color: var(--surface-2);
 }
 
+/* date pills — STRUCTURAL, slate fill with light ink (6.35:1) */
 .timeline-date {
   display: inline-block;
-  color: var(--muted);
+  color: var(--text);
   font-family: var(--ff-barlow);
   font-size: 1.3rem;
   font-weight: var(--fw-700);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background-color: var(--chip-bg);
-  border: 1px solid var(--line);
+  background-color: var(--accent-neutral);
+  border: 1px solid var(--accent-neutral-line);
   border-radius: var(--radius-pill);
   padding: 3px 12px;
   margin-block-end: 10px;
@@ -785,7 +951,8 @@ body {
   position: relative;
   padding-inline-start: 20px;
   font-size: 1.5rem;
-  line-height: 1.65;
+  line-height: 1.8; /* easier scanning */
+  color: var(--text);
 }
 
 .timeline-points li::before {
@@ -796,7 +963,7 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--mark);
+  background-color: var(--accent-neutral-ink); /* STRUCTURAL, slate */
 }
 
 /* --- education / languages strip -------------------------------------- */
@@ -875,6 +1042,24 @@ body {
 }
 
 /**
+ * Card artwork, per theme. Kept in CSS (not inline styles) so the light
+ * variants swap with no flash and no JS.
+ */
+.portfolio-card[data-project="fabric-platform"]   { background-image: url("../images/art-fabric-platform.svg"); }
+.portfolio-card[data-project="powerbi-suites"]    { background-image: url("../images/art-dashboards.svg"); }
+.portfolio-card[data-project="data-modeling"]     { background-image: url("../images/art-data-model.svg"); }
+.portfolio-card[data-project="python-automation"] { background-image: url("../images/art-automation.svg"); }
+.portfolio-card[data-project="joutyat-la-bourse"] { background-image: url("../images/art-stock-market.svg"); }
+.portfolio-card[data-project="mediamind-academy"] { background-image: url("../images/art-coaching.svg"); }
+
+[data-theme="light"] .portfolio-card[data-project="fabric-platform"]   { background-image: url("../images/art-fabric-platform-light.svg"); }
+[data-theme="light"] .portfolio-card[data-project="powerbi-suites"]    { background-image: url("../images/art-dashboards-light.svg"); }
+[data-theme="light"] .portfolio-card[data-project="data-modeling"]     { background-image: url("../images/art-data-model-light.svg"); }
+[data-theme="light"] .portfolio-card[data-project="python-automation"] { background-image: url("../images/art-automation-light.svg"); }
+[data-theme="light"] .portfolio-card[data-project="joutyat-la-bourse"] { background-image: url("../images/art-stock-market-light.svg"); }
+[data-theme="light"] .portfolio-card[data-project="mediamind-academy"] { background-image: url("../images/art-coaching-light.svg"); }
+
+/**
  * SCRIM — guarantees the title is legible over any artwork.
  * Bottom-weighted on small screens; direction-aware from 600px up.
  */
@@ -892,7 +1077,7 @@ body {
 }
 
 .portfolio-card:is(:hover, :focus-visible) {
-  border-color: var(--accent-line);
+  border-color: var(--accent-primary-line);
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
 }
@@ -911,9 +1096,13 @@ body {
   max-width: 26ch;
   font-size: var(--fs-4);
   line-height: 1.3;
-  /* belt-and-braces legibility over artwork */
+  /* belt-and-braces legibility over artwork — halo matches the theme */
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
   margin-block-end: 16px;
+}
+
+[data-theme="light"] .portfolio-card .card-title {
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.9);
 }
 
 .portfolio-card .btn-link {
@@ -926,12 +1115,12 @@ body {
 }
 
 .portfolio-card .btn-link ion-icon {
-  color: var(--mark);
+  color: var(--accent-neutral-ink);
   font-size: 1.6rem;
   transition: var(--transition-2);
 }
 
-.portfolio-card:is(:hover, :focus-visible) .btn-link ion-icon { color: var(--accent); }
+.portfolio-card:is(:hover, :focus-visible) .btn-link ion-icon { color: var(--accent-primary); }
 
 .portfolio-card:is(:hover, :focus-visible) .btn-link ion-icon { transform: translateX(4px); }
 
@@ -957,7 +1146,7 @@ body {
 .modal-backdrop {
   position: absolute;
   inset: 0;
-  background-color: rgba(var(--bg-rgb), 0.82);
+  background-color: var(--backdrop);
   backdrop-filter: blur(6px);
   animation: modal-fade 0.2s ease;
 }
@@ -1003,9 +1192,9 @@ body {
 
 .modal-close ion-icon { color: var(--muted); }
 
-.modal-close:is(:hover, :focus-visible) { border-color: var(--accent); }
+.modal-close:is(:hover, :focus-visible) { border-color: var(--accent-primary); }
 
-.modal-close:is(:hover, :focus-visible) ion-icon { color: var(--accent); }
+.modal-close:is(:hover, :focus-visible) ion-icon { color: var(--accent-primary); }
 
 .modal-art {
   background-color: var(--surface-2);
@@ -1094,6 +1283,8 @@ body.modal-open { overflow: hidden; }
   #SKILLS
 \*-----------------------------------*/
 
+.skills { background-color: var(--surface); }
+
 .skills .section-title { margin-block-end: 20px; }
 
 .skills .section-text { margin-block-end: 46px; }
@@ -1125,7 +1316,7 @@ body.modal-open { overflow: hidden; }
 
 .outcome ion-icon {
   flex: none;
-  color: var(--mark);
+  color: var(--accent-neutral-ink);
   font-size: 2rem;
 }
 
@@ -1135,7 +1326,8 @@ body.modal-open { overflow: hidden; }
 }
 
 .skill-group {
-  background-color: var(--surface);
+  /* the section itself is --surface now, so cards step up one tier */
+  background-color: var(--surface-2);
   border: 1px solid var(--line);
   border-radius: var(--radius-15);
   padding: 24px 22px;
@@ -1157,7 +1349,7 @@ body.modal-open { overflow: hidden; }
   width: 4px;
   height: 20px;
   border-radius: var(--radius-pill);
-  background-color: var(--mark);
+  background-color: var(--accent-neutral-ink);
 }
 
 .skill-chips {
@@ -1167,7 +1359,7 @@ body.modal-open { overflow: hidden; }
 }
 
 .skill-chips li {
-  background-color: var(--surface-2);
+  background-color: var(--surface-3);
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   color: var(--fg);
@@ -1180,14 +1372,14 @@ body.modal-open { overflow: hidden; }
 }
 
 .skill-chips li:hover {
-  border-color: var(--accent-line);
-  color: var(--accent);
+  border-color: var(--accent-primary-line);
+  color: var(--accent-primary);
 }
 
 /* the lead group gets a touch more presence */
-.skill-group.is-primary { background-color: var(--surface-2); }
+.skill-group.is-primary { background-color: var(--surface-3); }
 
-.skill-group.is-primary .skill-chips li { background-color: var(--surface-3); }
+.skill-group.is-primary .skill-chips li { background-color: var(--accent-neutral); }
 
 
 
@@ -1206,7 +1398,7 @@ body.modal-open { overflow: hidden; }
 }
 
 .contact-card .card-subtitle {
-  color: var(--accent);
+  color: var(--accent-primary);
   font-family: var(--ff-barlow);
   font-size: var(--fs-6);
   font-weight: var(--fw-700);
@@ -1242,7 +1434,7 @@ body.modal-open { overflow: hidden; }
 .contact-input::placeholder { color: var(--muted-2); }
 
 .contact-input:focus {
-  border-color: var(--accent);
+  border-color: var(--accent-primary);
   outline: none;
 }
 
@@ -1254,8 +1446,8 @@ textarea.contact-input {
 }
 
 .btn-submit {
-  background-color: var(--accent);
-  color: #1a0d07;
+  background-color: var(--accent-primary);
+  color: var(--accent-primary-ink);
   font-family: var(--ff-barlow);
   font-size: var(--fs-5);
   font-weight: var(--fw-600);
@@ -1266,8 +1458,8 @@ textarea.contact-input {
 }
 
 .btn-submit:is(:hover, :focus-visible) {
-  background-color: var(--accent-strong);
-  color: var(--fg);
+  background-color: var(--accent-primary-strong);
+  color: var(--accent-primary-ink);
 }
 
 .contact-item {
@@ -1278,16 +1470,17 @@ textarea.contact-input {
 
 .contact-item:not(:last-child) { margin-block-end: 18px; }
 
+/* repeating icon wells — STRUCTURAL, slate */
 .contact-icon {
   flex: none;
-  background-color: var(--chip-bg);
-  border: 1px solid var(--line);
+  background-color: var(--accent-neutral);
+  border: 1px solid var(--accent-neutral-line);
   font-size: 2.2rem;
   padding: 16px;
   border-radius: 50%;
 }
 
-.contact-icon ion-icon { color: var(--muted); }
+.contact-icon ion-icon { color: var(--fg); }
 
 .contact-item-title {
   color: var(--fg);
@@ -1296,12 +1489,16 @@ textarea.contact-input {
   font-weight: var(--fw-600);
 }
 
-.contact-item-link {
+/* real hyperlinks — ACTION, teal */
+a.contact-item-link {
+  color: var(--accent-primary);
   transition: var(--transition-1);
   word-break: break-word;
 }
 
-.contact-item-link:not(address):is(:hover, :focus-visible) { color: var(--accent); }
+address.contact-item-link { color: var(--text); }
+
+a.contact-item-link:is(:hover, :focus-visible) { text-decoration: underline; }
 
 
 
@@ -1327,9 +1524,10 @@ textarea.contact-input {
 
 .blog-card { font-family: var(--ff-barlow); }
 
+/* certification badges — ACHIEVEMENT, amber borders */
 .blog-card .card-banner {
   background-color: var(--surface-2);
-  border: 1px solid var(--line);
+  border: 1px solid var(--accent-secondary-line);
   border-radius: var(--radius-15);
   overflow: hidden;
   margin-block-end: 14px;
@@ -1344,11 +1542,14 @@ textarea.contact-input {
 .blog-card .card-banner a:is(:hover, :focus-visible) img { transform: scale(1.05); }
 
 .blog-card .card-banner:focus-within {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-primary);
   outline-offset: 3px;
 }
 
 .blog-card .card-tag {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
   color: var(--fg);
   font-size: 1.6rem;
   font-weight: var(--fw-600);
@@ -1356,7 +1557,18 @@ textarea.contact-input {
   transition: var(--transition-2);
 }
 
-.blog-card .card-tag:is(:hover, :focus-visible) { color: var(--accent); }
+/* credential marker — ACHIEVEMENT, amber */
+.blog-card .card-tag::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-secondary);
+  transform: translateY(-2px);
+}
+
+.blog-card .card-tag:is(:hover, :focus-visible) { color: var(--accent-primary); }
 
 
 
@@ -1386,7 +1598,7 @@ textarea.contact-input {
   color: var(--fg);
 }
 
-.copyright-link:is(:hover, :focus-visible) { color: var(--accent); }
+.copyright-link:is(:hover, :focus-visible) { color: var(--accent-primary); }
 
 .footer-list {
   max-width: max-content;
@@ -1400,7 +1612,7 @@ textarea.contact-input {
 
 .footer-link { transition: var(--transition-2); }
 
-.footer-link:is(:hover, :focus-visible) { color: var(--accent); }
+.footer-link:is(:hover, :focus-visible) { color: var(--accent-primary); }
 
 
 
@@ -1437,7 +1649,7 @@ textarea.contact-input {
   left: calc(100% + 7px);
   width: 80px;
   height: 1px;
-  background-color: var(--mark);
+  background-color: var(--accent-neutral-ink);
 }
 
 
@@ -1590,7 +1802,7 @@ textarea.contact-input {
      * spacing
      */
 
-    --section-padding: 100px;
+    --section-padding: 128px; /* +28% breathing room */
 
   }
 
@@ -1642,6 +1854,9 @@ textarea.contact-input {
     font-size: 1.6rem;
   }
 
+  /* on desktop the nav rejoins the flow, so the toggle lands after Download CV */
+  .navbar { margin-inline-start: auto; }
+
 
 
   /**
@@ -1660,7 +1875,7 @@ textarea.contact-input {
   /* keep the busy artwork on the left half only, behind the copy, faded */
   .hero::after {
     background:
-      radial-gradient(55% 60% at 80% 45%, rgba(var(--accent-rgb), 0.12), transparent 70%),
+      radial-gradient(55% 60% at 80% 45%, rgba(var(--accent-primary-rgb), 0.12), transparent 70%),
       linear-gradient(to right,
         rgba(var(--bg-rgb), 0.90) 0%,
         rgba(var(--bg-rgb), 0.82) 45%,

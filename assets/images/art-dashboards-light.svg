@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="Abstract business intelligence dashboard with KPI tiles, bar chart and trend line">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0d1426"/>
-      <stop offset="1" stop-color="#141d35"/>
+      <stop offset="0" stop-color="#eef0f6"/>
+      <stop offset="1" stop-color="#e6e9f3"/>
     </linearGradient>
     <linearGradient id="barA" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#7d8ab8" stop-opacity=".25"/>
-      <stop offset="1" stop-color="#7d8ab8" stop-opacity=".85"/>
+      <stop offset="0" stop-color="#545f80" stop-opacity=".25"/>
+      <stop offset="1" stop-color="#545f80" stop-opacity=".85"/>
     </linearGradient>
     <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2dd4bf" stop-opacity=".45"/>
-      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+      <stop offset="0" stop-color="#0b7a70" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#0b7a70" stop-opacity="0"/>
     </linearGradient>
   </defs>
 
@@ -18,23 +18,23 @@
 
   <!-- KPI tiles -->
   <g>
-    <rect x="80" y="70" width="230" height="110" rx="14" fill="#18233d" stroke="#ffffff" stroke-opacity=".08"/>
-    <rect x="340" y="70" width="230" height="110" rx="14" fill="#18233d" stroke="#ffffff" stroke-opacity=".08"/>
-    <rect x="600" y="70" width="230" height="110" rx="14" fill="#18233d" stroke="#ffffff" stroke-opacity=".08"/>
-    <rect x="860" y="70" width="260" height="110" rx="14" fill="#18233d" stroke="#ffffff" stroke-opacity=".08"/>
-    <g fill="#9aa5cc" fill-opacity=".55">
+    <rect x="80" y="70" width="230" height="110" rx="14" fill="#ffffff" stroke="#131829" stroke-opacity=".08"/>
+    <rect x="340" y="70" width="230" height="110" rx="14" fill="#ffffff" stroke="#131829" stroke-opacity=".08"/>
+    <rect x="600" y="70" width="230" height="110" rx="14" fill="#ffffff" stroke="#131829" stroke-opacity=".08"/>
+    <rect x="860" y="70" width="260" height="110" rx="14" fill="#ffffff" stroke="#131829" stroke-opacity=".08"/>
+    <g fill="#6b769c" fill-opacity=".55">
       <rect x="104" y="96" width="80" height="8" rx="4"/>
       <rect x="364" y="96" width="66" height="8" rx="4"/>
       <rect x="624" y="96" width="92" height="8" rx="4"/>
       <rect x="884" y="96" width="74" height="8" rx="4"/>
     </g>
-    <g fill="#ffffff" fill-opacity=".82">
+    <g fill="#131829" fill-opacity=".82">
       <rect x="104" y="124" width="120" height="20" rx="6"/>
       <rect x="364" y="124" width="96" height="20" rx="6"/>
       <rect x="624" y="124" width="140" height="20" rx="6"/>
       <rect x="884" y="124" width="108" height="20" rx="6"/>
     </g>
-    <g fill="#2dd4bf" fill-opacity=".9">
+    <g fill="#0b7a70" fill-opacity=".9">
       <rect x="104" y="156" width="40" height="6" rx="3"/>
       <rect x="364" y="156" width="54" height="6" rx="3"/>
       <rect x="624" y="156" width="32" height="6" rx="3"/>
@@ -44,8 +44,8 @@
 
   <!-- bar chart -->
   <g>
-    <rect x="80" y="220" width="500" height="300" rx="16" fill="#18233d" stroke="#ffffff" stroke-opacity=".08"/>
-    <g stroke="#ffffff" stroke-opacity=".07" stroke-width="1">
+    <rect x="80" y="220" width="500" height="300" rx="16" fill="#ffffff" stroke="#131829" stroke-opacity=".08"/>
+    <g stroke="#131829" stroke-opacity=".07" stroke-width="1">
       <path d="M110 300 h440"/><path d="M110 360 h440"/><path d="M110 420 h440"/><path d="M110 470 h440"/>
     </g>
     <g fill="url(#barA)">
@@ -55,18 +55,18 @@
       <rect x="332" y="288" width="46" height="182" rx="6"/>
       <rect x="400" y="338" width="46" height="132" rx="6"/>
     </g>
-    <rect x="468" y="262" width="46" height="208" rx="6" fill="#2dd4bf" fill-opacity=".85"/>
+    <rect x="468" y="262" width="46" height="208" rx="6" fill="#0b7a70" fill-opacity=".85"/>
   </g>
 
   <!-- trend line -->
   <g>
-    <rect x="620" y="220" width="500" height="300" rx="16" fill="#18233d" stroke="#ffffff" stroke-opacity=".08"/>
+    <rect x="620" y="220" width="500" height="300" rx="16" fill="#ffffff" stroke="#131829" stroke-opacity=".08"/>
     <path d="M652 452 L 740 404 L 812 424 L 890 344 L 966 372 L 1042 288 L 1090 306 L 1090 490 L 652 490 Z" fill="url(#area)"/>
-    <path d="M652 452 L 740 404 L 812 424 L 890 344 L 966 372 L 1042 288 L 1090 306" fill="none" stroke="#2dd4bf" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
-    <g fill="#0d1426" stroke="#2dd4bf" stroke-width="3">
+    <path d="M652 452 L 740 404 L 812 424 L 890 344 L 966 372 L 1042 288 L 1090 306" fill="none" stroke="#0b7a70" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    <g fill="#eef0f6" stroke="#0b7a70" stroke-width="3">
       <circle cx="740" cy="404" r="6"/><circle cx="890" cy="344" r="6"/><circle cx="1042" cy="288" r="6"/>
     </g>
-    <g stroke="#ffffff" stroke-opacity=".07" stroke-width="1">
+    <g stroke="#131829" stroke-opacity=".07" stroke-width="1">
       <path d="M652 490 h438"/>
     </g>
   </g>

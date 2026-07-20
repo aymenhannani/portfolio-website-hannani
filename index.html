@@ -1,7 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
+  <!--
+    - theme bootstrap — runs before first paint so there is no flash of the
+    - wrong theme. Stored choice wins; prefers-color-scheme is only a fallback;
+    - dark is the default.
+  -->
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("theme"); } catch (e) { }
+      var theme = (stored === "light" || stored === "dark") ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -91,9 +106,16 @@
   <header class="header" data-header>
     <div class="container">
 
-      <a href="#">
+      <a href="#" class="logo-link">
         <h1 class="logo">Aymen HANNANI</h1>
       </a>
+
+      <!-- kept outside the collapsible nav so it is reachable on mobile too -->
+      <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false">
+        <ion-icon name="sunny-outline" class="icon-to-light"></ion-icon>
+        <ion-icon name="moon-outline" class="icon-to-dark"></ion-icon>
+        <span class="theme-toggle-label" data-theme-label>Switch to light theme</span>
+      </button>
 
       <button class="nav-toggle-btn" aria-label="Toggle Menu" data-nav-toggle-btn>
         <ion-icon name="menu-outline" class="menu-icon"></ion-icon>
@@ -164,17 +186,20 @@
 
             <ul class="hero-stats">
 
-              <li class="stat">
+              <!-- action: an ongoing, active thing -->
+              <li class="stat stat--action">
                 <p class="stat-value">7+</p>
                 <p class="stat-label">Years of Experience</p>
               </li>
 
-              <li class="stat">
+              <!-- achievement: a credential -->
+              <li class="stat stat--credential">
                 <p class="stat-value">PL-300</p>
                 <p class="stat-label">Microsoft Certified</p>
               </li>
 
-              <li class="stat">
+              <!-- structural: a repeating factual label -->
+              <li class="stat stat--structural">
                 <p class="stat-value">AR&nbsp;&middot;&nbsp;FR&nbsp;&middot;&nbsp;EN</p>
                 <p class="stat-label">Trilingual</p>
               </li>
@@ -261,7 +286,7 @@
 
           <figure class="about-banner">
 
-            <img src="./assets/images/art-journey.svg" width="800" height="1000" loading="lazy"
+            <img src="./assets/images/art-journey.svg" data-src-light="./assets/images/art-journey-light.svg" width="800" height="1000" loading="lazy"
               alt="A rising path of career milestones: engineering studies, business analysis, business intelligence, data platform ownership"
               class="img-cover">
 
@@ -414,8 +439,7 @@
 
             <li>
               <button type="button" class="portfolio-card" data-project="fabric-platform"
-                data-art="./assets/images/art-fabric-platform.svg"
-                style="background-image: url('./assets/images/art-fabric-platform.svg')">
+                data-art="./assets/images/art-fabric-platform.svg" data-art-light="./assets/images/art-fabric-platform-light.svg">
                 <span class="card-content">
 
                   <span class="card-subtitle" data-card-subtitle>Data Platform / Microsoft Fabric</span>
@@ -435,8 +459,7 @@
 
             <li>
               <button type="button" class="portfolio-card" data-project="powerbi-suites"
-                data-art="./assets/images/art-dashboards.svg"
-                style="background-image: url('./assets/images/art-dashboards.svg')">
+                data-art="./assets/images/art-dashboards.svg" data-art-light="./assets/images/art-dashboards-light.svg">
                 <span class="card-content">
 
                   <span class="card-subtitle" data-card-subtitle>Business Intelligence</span>
@@ -456,8 +479,7 @@
 
             <li>
               <button type="button" class="portfolio-card" data-project="data-modeling"
-                data-art="./assets/images/art-data-model.svg"
-                style="background-image: url('./assets/images/art-data-model.svg')">
+                data-art="./assets/images/art-data-model.svg" data-art-light="./assets/images/art-data-model-light.svg">
                 <span class="card-content">
 
                   <span class="card-subtitle" data-card-subtitle>Data Modeling &amp; Governance</span>
@@ -477,8 +499,7 @@
 
             <li>
               <button type="button" class="portfolio-card" data-project="python-automation"
-                data-art="./assets/images/art-automation.svg"
-                style="background-image: url('./assets/images/art-automation.svg')">
+                data-art="./assets/images/art-automation.svg" data-art-light="./assets/images/art-automation-light.svg">
                 <span class="card-content">
 
                   <span class="card-subtitle" data-card-subtitle>Python Automation</span>
@@ -498,8 +519,7 @@
 
             <li>
               <button type="button" class="portfolio-card" data-project="joutyat-la-bourse"
-                data-art="./assets/images/art-stock-market.svg"
-                style="background-image: url('./assets/images/art-stock-market.svg')">
+                data-art="./assets/images/art-stock-market.svg" data-art-light="./assets/images/art-stock-market-light.svg">
                 <span class="card-content">
 
                   <span class="card-subtitle" data-card-subtitle>Venture — Financial Education</span>
@@ -519,8 +539,7 @@
 
             <li>
               <button type="button" class="portfolio-card" data-project="mediamind-academy"
-                data-art="./assets/images/art-coaching.svg"
-                style="background-image: url('./assets/images/art-coaching.svg')">
+                data-art="./assets/images/art-coaching.svg" data-art-light="./assets/images/art-coaching-light.svg">
                 <span class="card-content">
 
                   <span class="card-subtitle" data-card-subtitle>Venture — Training</span>
@@ -840,7 +859,7 @@
                 <figure class="card-banner">
                   <a href="#">
                     <!-- TODO: swap for the official PL-300 badge / certificate image when available -->
-                    <img src="./assets/images/cert-pl300.svg" width="1181" height="843" loading="lazy"
+                    <img src="./assets/images/cert-pl300.svg" data-src-light="./assets/images/cert-pl300-light.svg" width="1181" height="843" loading="lazy"
                       alt="Microsoft PL-300 Power BI Data Analyst Associate — Aymen Hannani" class="img-cover">
                   </a>
                 </figure>
@@ -855,7 +874,7 @@
                 <figure class="card-banner">
                   <a href="#">
                     <!-- TODO: swap for the official DataCamp certificate image when available -->
-                    <img src="./assets/images/cert-datacamp.svg" width="1181" height="843" loading="lazy"
+                    <img src="./assets/images/cert-datacamp.svg" data-src-light="./assets/images/cert-datacamp-light.svg" width="1181" height="843" loading="lazy"
                       alt="DataCamp Data Analyst Track (Python / SQL) — Aymen Hannani" class="img-cover">
                   </a>
                 </figure>
@@ -871,7 +890,7 @@
                 <figure class="card-banner">
                   <a href="#">
                     <!-- TODO: swap for the official GitHub Foundations badge when available -->
-                    <img src="./assets/images/cert-github.svg" width="1181" height="843" loading="lazy"
+                    <img src="./assets/images/cert-github.svg" data-src-light="./assets/images/cert-github-light.svg" width="1181" height="843" loading="lazy"
                       alt="GitHub Foundations certification — Aymen Hannani" class="img-cover">
                   </a>
                 </figure>

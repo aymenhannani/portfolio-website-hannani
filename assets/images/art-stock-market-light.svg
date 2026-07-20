@@ -1,36 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="Abstract stock market candlestick chart with an upward trend and a ticker strip">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0d1426"/>
-      <stop offset="1" stop-color="#131c33"/>
+      <stop offset="0" stop-color="#eef0f6"/>
+      <stop offset="1" stop-color="#e6e9f3"/>
     </linearGradient>
     <linearGradient id="trendArea" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2dd4bf" stop-opacity=".28"/>
-      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+      <stop offset="0" stop-color="#0b7a70" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#0b7a70" stop-opacity="0"/>
     </linearGradient>
   </defs>
 
   <rect width="1200" height="600" fill="url(#bg)"/>
 
   <!-- grid -->
-  <g stroke="#ffffff" stroke-opacity=".06" stroke-width="1">
+  <g stroke="#131829" stroke-opacity=".06" stroke-width="1">
     <path d="M60 140 h1080"/><path d="M60 240 h1080"/><path d="M60 340 h1080"/><path d="M60 440 h1080"/>
   </g>
 
   <!-- trend area under the candles -->
   <path d="M110 430 L 230 400 L 350 412 L 470 350 L 590 366 L 710 300 L 830 268 L 950 288 L 1070 210 L 1070 470 L 110 470 Z" fill="url(#trendArea)"/>
-  <path d="M110 430 L 230 400 L 350 412 L 470 350 L 590 366 L 710 300 L 830 268 L 950 288 L 1070 210" fill="none" stroke="#2dd4bf" stroke-opacity=".8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M110 430 L 230 400 L 350 412 L 470 350 L 590 366 L 710 300 L 830 268 L 950 288 L 1070 210" fill="none" stroke="#0b7a70" stroke-opacity=".8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
 
   <!-- candlesticks: up candles teal, down candles muted -->
   <g stroke-width="3" stroke-linecap="round">
-    <g stroke="#7d8ab8" stroke-opacity=".8" fill="#7d8ab8" fill-opacity=".55">
+    <g stroke="#545f80" stroke-opacity=".8" fill="#545f80" fill-opacity=".55">
       <path d="M140 372 v106"/><rect x="126" y="392" width="28" height="62" rx="3"/>
       <path d="M380 336 v112"/><rect x="366" y="352" width="28" height="76" rx="3"/>
       <path d="M620 284 v120"/><rect x="606" y="302" width="28" height="80" rx="3"/>
       <path d="M860 224 v122"/><rect x="846" y="242" width="28" height="84" rx="3"/>
       <path d="M980 196 v120"/><rect x="966" y="212" width="28" height="82" rx="3"/>
     </g>
-    <g stroke="#7d8bab" stroke-opacity=".7" fill="#7d8bab" fill-opacity=".3">
+    <g stroke="#6b7794" stroke-opacity=".7" fill="#6b7794" fill-opacity=".3">
       <path d="M260 348 v110"/><rect x="246" y="366" width="28" height="70" rx="3"/>
       <path d="M500 306 v112"/><rect x="486" y="324" width="28" height="72" rx="3"/>
       <path d="M740 260 v112"/><rect x="726" y="278" width="28" height="72" rx="3"/>
@@ -40,8 +40,8 @@
 
   <!-- ticker strip (abstract, no text) -->
   <g>
-    <rect x="0" y="518" width="1200" height="44" fill="#ffffff" fill-opacity=".04"/>
-    <g fill="#9aa5cc" fill-opacity=".45">
+    <rect x="0" y="518" width="1200" height="44" fill="#131829" fill-opacity=".04"/>
+    <g fill="#6b769c" fill-opacity=".45">
       <rect x="60" y="536" width="70" height="8" rx="4"/>
       <rect x="220" y="536" width="54" height="8" rx="4"/>
       <rect x="380" y="536" width="84" height="8" rx="4"/>
@@ -50,7 +50,7 @@
       <rect x="900" y="536" width="58" height="8" rx="4"/>
       <rect x="1050" y="536" width="80" height="8" rx="4"/>
     </g>
-    <g fill="#2dd4bf" fill-opacity=".8">
+    <g fill="#0b7a70" fill-opacity=".8">
       <path d="M150 546 l 10 -16 l 10 16 z"/>
       <path d="M300 546 l 10 -16 l 10 16 z"/>
       <path d="M660 546 l 10 -16 l 10 16 z"/>
