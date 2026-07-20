@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="Abstract data platform: sources flowing through a pipeline into a modelled lakehouse">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1426"/>
+      <stop offset="1" stop-color="#131c33"/>
+    </linearGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3d7fd6" stop-opacity=".15"/>
+      <stop offset=".55" stop-color="#4d94f0" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#f4623a" stop-opacity=".9"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".72" cy=".5" r=".5">
+      <stop offset="0" stop-color="#4d94f0" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#4d94f0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#bg)"/>
+  <rect width="1200" height="600" fill="url(#glow)"/>
+
+  <!-- source nodes -->
+  <g fill="none" stroke="#4d94f0" stroke-opacity=".55" stroke-width="2">
+    <rect x="90" y="120" width="120" height="64" rx="10"/>
+    <rect x="90" y="268" width="120" height="64" rx="10"/>
+    <rect x="90" y="416" width="120" height="64" rx="10"/>
+  </g>
+  <g fill="#4d94f0" fill-opacity=".5">
+    <circle cx="120" cy="152" r="7"/><circle cx="120" cy="300" r="7"/><circle cx="120" cy="448" r="7"/>
+    <rect x="140" y="145" width="52" height="6" rx="3"/>
+    <rect x="140" y="293" width="52" height="6" rx="3"/>
+    <rect x="140" y="441" width="52" height="6" rx="3"/>
+  </g>
+
+  <!-- pipeline curves -->
+  <g fill="none" stroke="url(#flow)" stroke-width="3">
+    <path d="M210 152 C 340 152, 380 300, 520 300"/>
+    <path d="M210 300 C 340 300, 400 300, 520 300"/>
+    <path d="M210 448 C 340 448, 380 300, 520 300"/>
+  </g>
+
+  <!-- transform stage -->
+  <g>
+    <rect x="520" y="240" width="130" height="120" rx="16" fill="#18233d" stroke="#f4623a" stroke-opacity=".7" stroke-width="2"/>
+    <g stroke="#f4623a" stroke-opacity=".85" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M556 282 h58"/><path d="M556 300 h40"/><path d="M556 318 h50"/>
+    </g>
+  </g>
+
+  <g fill="none" stroke="url(#flow)" stroke-width="3">
+    <path d="M650 300 h110"/>
+  </g>
+
+  <!-- lakehouse / modelled layer -->
+  <g>
+    <rect x="760" y="180" width="330" height="240" rx="20" fill="#16203a" stroke="#4d94f0" stroke-opacity=".45" stroke-width="2"/>
+    <g fill="#4d94f0" fill-opacity=".35">
+      <rect x="792" y="214" width="126" height="58" rx="8"/>
+      <rect x="932" y="214" width="126" height="58" rx="8"/>
+      <rect x="792" y="292" width="126" height="58" rx="8"/>
+      <rect x="932" y="292" width="126" height="58" rx="8"/>
+    </g>
+    <g fill="#f4623a" fill-opacity=".9">
+      <rect x="806" y="234" width="60" height="6" rx="3"/>
+      <rect x="946" y="234" width="44" height="6" rx="3"/>
+      <rect x="806" y="312" width="50" height="6" rx="3"/>
+      <rect x="946" y="312" width="66" height="6" rx="3"/>
+    </g>
+    <g stroke="#4d94f0" stroke-opacity=".5" stroke-width="2">
+      <path d="M918 243 h14"/><path d="M918 321 h14"/>
+      <path d="M855 272 v20"/><path d="M995 272 v20"/>
+    </g>
+  </g>
+
+  <!-- dotted grid texture -->
+  <g fill="#ffffff" fill-opacity=".05">
+    <circle cx="300" cy="80" r="3"/><circle cx="380" cy="520" r="3"/><circle cx="700" cy="120" r="3"/>
+    <circle cx="1120" cy="500" r="3"/><circle cx="640" cy="520" r="3"/><circle cx="1060" cy="90" r="3"/>
+  </g>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="Abstract coaching scene: a presentation board showing a dashboard, with a pointer and seats">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1426"/>
+      <stop offset="1" stop-color="#131c33"/>
+    </linearGradient>
+    <linearGradient id="board" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2540"/>
+      <stop offset="1" stop-color="#161f37"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#bg)"/>
+
+  <!-- board / screen -->
+  <g>
+    <rect x="270" y="70" width="660" height="360" rx="18" fill="url(#board)" stroke="#4d94f0" stroke-opacity=".4" stroke-width="2"/>
+
+    <!-- mini dashboard on the board -->
+    <g fill="#ffffff" fill-opacity=".07">
+      <rect x="308" y="110" width="176" height="72" rx="10"/>
+      <rect x="500" y="110" width="176" height="72" rx="10"/>
+      <rect x="692" y="110" width="200" height="72" rx="10"/>
+    </g>
+    <g fill="#8fb4e8" fill-opacity=".5">
+      <rect x="328" y="132" width="66" height="7" rx="3.5"/>
+      <rect x="520" y="132" width="54" height="7" rx="3.5"/>
+      <rect x="712" y="132" width="78" height="7" rx="3.5"/>
+    </g>
+    <g fill="#ffffff" fill-opacity=".75">
+      <rect x="328" y="152" width="96" height="14" rx="5"/>
+      <rect x="520" y="152" width="80" height="14" rx="5"/>
+      <rect x="712" y="152" width="110" height="14" rx="5"/>
+    </g>
+
+    <g fill="#4d94f0" fill-opacity=".55">
+      <rect x="320" y="330" width="40" height="60" rx="5"/>
+      <rect x="378" y="300" width="40" height="90" rx="5"/>
+      <rect x="436" y="346" width="40" height="44" rx="5"/>
+      <rect x="494" y="282" width="40" height="108" rx="5"/>
+    </g>
+    <rect x="552" y="256" width="40" height="134" rx="5" fill="#f4623a" fill-opacity=".85"/>
+
+    <path d="M660 372 L 720 336 L 780 348 L 840 296 L 892 268" fill="none" stroke="#f4623a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#0d1426" stroke="#f4623a" stroke-width="3">
+      <circle cx="720" cy="336" r="5"/><circle cx="840" cy="296" r="5"/>
+    </g>
+  </g>
+
+  <!-- stand -->
+  <g stroke="#ffffff" stroke-opacity=".14" stroke-width="6" stroke-linecap="round">
+    <path d="M600 430 v46"/>
+    <path d="M540 500 L 600 476 L 660 500"/>
+  </g>
+
+  <!-- pointer / hand abstraction -->
+  <g stroke="#f4623a" stroke-opacity=".9" stroke-width="6" stroke-linecap="round" fill="none">
+    <path d="M1030 460 L 946 350"/>
+  </g>
+  <circle cx="944" cy="344" r="10" fill="#f4623a"/>
+  <circle cx="1046" cy="482" r="16" fill="#ffffff" fill-opacity=".12"/>
+
+  <!-- seats -->
+  <g fill="#ffffff" fill-opacity=".08">
+    <rect x="150" y="470" width="90" height="26" rx="13"/>
+    <rect x="150" y="506" width="90" height="46" rx="12"/>
+    <rect x="280" y="470" width="90" height="26" rx="13"/>
+    <rect x="280" y="506" width="90" height="46" rx="12"/>
+  </g>
+</svg>

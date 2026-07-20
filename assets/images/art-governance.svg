@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="Abstract data governance: quality checks and lineage links across a data flow">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1426"/>
+      <stop offset="1" stop-color="#131c33"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#bg)"/>
+
+  <!-- lineage links -->
+  <g stroke="#4d94f0" stroke-opacity=".4" stroke-width="2" fill="none">
+    <path d="M250 180 C 380 180, 380 300, 520 300"/>
+    <path d="M250 300 C 380 300, 400 300, 520 300"/>
+    <path d="M250 420 C 380 420, 380 300, 520 300"/>
+    <path d="M700 300 C 820 300, 820 190, 950 190"/>
+    <path d="M700 300 C 820 300, 820 410, 950 410"/>
+  </g>
+
+  <!-- source nodes -->
+  <g fill="#18233d" stroke="#4d94f0" stroke-opacity=".45" stroke-width="2">
+    <rect x="110" y="150" width="140" height="60" rx="10"/>
+    <rect x="110" y="270" width="140" height="60" rx="10"/>
+    <rect x="110" y="390" width="140" height="60" rx="10"/>
+  </g>
+  <g fill="#8fb4e8" fill-opacity=".5">
+    <rect x="134" y="176" width="76" height="8" rx="4"/>
+    <rect x="134" y="296" width="60" height="8" rx="4"/>
+    <rect x="134" y="416" width="88" height="8" rx="4"/>
+  </g>
+
+  <!-- quality gate -->
+  <g>
+    <rect x="520" y="220" width="180" height="160" rx="18" fill="#1b2540" stroke="#f4623a" stroke-opacity=".75" stroke-width="2.5"/>
+    <path d="M572 300 l 26 28 l 56 -62" fill="none" stroke="#f4623a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- certified outputs -->
+  <g fill="#18233d" stroke="#4d94f0" stroke-opacity=".45" stroke-width="2">
+    <rect x="950" y="150" width="150" height="80" rx="12"/>
+    <rect x="950" y="370" width="150" height="80" rx="12"/>
+  </g>
+  <g fill="#4d94f0" fill-opacity=".5">
+    <rect x="974" y="178" width="80" height="8" rx="4"/>
+    <rect x="974" y="200" width="56" height="8" rx="4"/>
+    <rect x="974" y="398" width="80" height="8" rx="4"/>
+    <rect x="974" y="420" width="56" height="8" rx="4"/>
+  </g>
+
+  <!-- link dots -->
+  <g fill="#0d1426" stroke="#4d94f0" stroke-width="3">
+    <circle cx="250" cy="180" r="5"/><circle cx="250" cy="300" r="5"/><circle cx="250" cy="420" r="5"/>
+    <circle cx="950" cy="190" r="5"/><circle cx="950" cy="410" r="5"/>
+  </g>
+</svg>

@@ -1,0 +1,184 @@
+Aymen Hannani - Data Engineer & BI Consultant | Power BI, Microsoft Fabric, SQL, Python - Casablanca
+
+
+
+#---------- HEADER ----------#
+
+Aymen HANNANI
+
+aria-label = Toggle Menu
+
+<ion-icon name="menu-outline"></ion-icon>
+<ion-icon name="close-outline"></ion-icon>
+
+Home
+About
+Portfolio
+Skills
+Contact
+Certifications
+
+Download CV
+
+
+
+#---------- HERO ----------#
+
+alt = Aymen Hannani's Photo
+
+7+
+Years of Experience
+
+PL-300
+Microsoft Certified
+
+<ion-icon name="trophy"></ion-icon>
+
+alt = Data Engineer & BI Consultant based in Casablanca, Morocco
+
+Hello I'm
+
+Aymen Hannani
+
+Data Engineer & BI Consultant | Product Owner Data & BI
+
+Based in Casablanca, Morocco. Microsoft PL-300 certified, I design and build data platforms end to end.
+
+Get Contact
+
+About Me
+
+
+
+#---------- ABOUT ----------#
+
+alt = Data platform and analytics work
+
+alt = Business intelligence dashboards
+
+<ion-icon name="bar-chart"></ion-icon>
+<ion-icon name="server"></ion-icon>
+<ion-icon name="analytics"></ion-icon>
+
+I'm a Data & BI Professional
+
+Professional Background
+Work Experience
+Beyond Work
+
+My LinkedIn
+
+
+
+#---------- PORTFOLIO ----------#
+
+Portfolio
+
+My Amazing Works
+
+Group-wide multi-entity data platform on Microsoft Fabric
+Power BI dashboard suites: Procurement, Group KPIs and Lead Time
+Star-schema models, data quality rules and lineage documentation
+Python & Excel automation of recurring documentation and controls
+Joutyat La Bourse - Moroccan stock-market YouTube channel
+MediaMind Academy - 1-on-1 Power BI & data coaching, Casablanca
+
+Learn More
+<ion-icon name="arrow-forward"></ion-icon>
+
+
+
+#---------- SKILLS ----------#
+
+My Skills
+
+I Develop Skills Regularly
+
+Power BI (PL-300 certified): DAX, Power Query (M), Power Pivot
+95%
+
+SQL (advanced): querying, optimization, profiling
+95%
+
+Data Modeling: star schema, dimensional / Kimball, SCD Type 2
+90%
+
+Microsoft Fabric
+90%
+
+Python: pandas, automation, scripting
+85%
+
+ETL / ELT, Data Quality & Governance, Data Visualization
+90%
+
+Excel (advanced)
+90%
+
+Spark, Databricks, Azure Data Factory, Synapse, BigQuery, Looker Studio, Snowflake
+70%
+
+Agile / Scrum, V-cycle, Jira, Git / GitHub
+80%
+
+Soft skills
+95%
+
+
+
+#---------- CONTACT ----------#
+
+Don't be shy
+
+Drop Me a Line
+
+placeholder = Name
+
+placeholder = Email
+
+placeholder = Message
+
+Submit Message
+
+<ion-icon name="location"></ion-icon>
+Address
+Casablanca, Morocco
+
+<ion-icon name="mail"></ion-icon>
+Email
+aymenhannani@gmail.com
+
+<ion-icon name="call"></ion-icon>
+Phone
++212 615 148254
+
+<ion-icon name="logo-linkedin"></ion-icon>
+LinkedIn
+linkedin.com/in/aymen-hannani
+
+
+
+#---------- CERTIFICATIONS ----------#
+
+My Certifications
+
+Checkout My Certifications
+
+Microsoft PL-300: Power BI Data Analyst Associate
+DataCamp - Data Analyst Track (Python / SQL)
+GitHub Foundations
+
+
+
+#---------- FOOTER ----------#
+
+&copy; 2026 Aymen Hannani. All Rights Reseverd
+
+Terms & Condition
+Privacy Policy
+
+
+
+#---------- BACK TO TOP ----------#
+
+BACK TOP

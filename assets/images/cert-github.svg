@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1181 843" width="1181" height="843" role="img" aria-label="GitHub Foundations certification badge">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111a2f"/>
+      <stop offset="1" stop-color="#1a2440"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1181" height="843" fill="url(#bg)"/>
+  <g stroke="#ffffff" stroke-opacity=".05" stroke-width="1">
+    <path d="M0 200 h1181"/><path d="M0 640 h1181"/>
+  </g>
+
+  <g transform="translate(590 350)">
+    <circle r="150" fill="none" stroke="#ffffff" stroke-opacity=".1" stroke-width="2"/>
+    <circle r="118" fill="#1b2540" stroke="#4d94f0" stroke-width="6"/>
+    <!-- branch emblem -->
+    <g stroke="#f4623a" stroke-width="7" fill="none" stroke-linecap="round">
+      <path d="M-40 -56 v112"/>
+      <path d="M-40 0 h44 a26 26 0 0 0 26 -26 v-22"/>
+    </g>
+    <g fill="#4d94f0">
+      <circle cx="-40" cy="-62" r="16"/>
+      <circle cx="-40" cy="62" r="16"/>
+      <circle cx="30" cy="-56" r="16"/>
+    </g>
+  </g>
+
+  <g font-family="Barlow, Arial, sans-serif" text-anchor="middle">
+    <text x="590" y="592" fill="#ffffff" font-size="52" font-weight="600">GitHub</text>
+    <text x="590" y="646" fill="#f4623a" font-size="34" font-weight="600">Foundations</text>
+    <text x="590" y="712" fill="#8fb4e8" font-size="28">Aymen Hannani</text>
+  </g>
+</svg>

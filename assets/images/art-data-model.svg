@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="Abstract star schema: a central fact table joined to four dimension tables">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1426"/>
+      <stop offset="1" stop-color="#131c33"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".45">
+      <stop offset="0" stop-color="#f4623a" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#f4623a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#bg)"/>
+  <rect width="1200" height="600" fill="url(#glow)"/>
+
+  <!-- relationship lines -->
+  <g stroke="#4d94f0" stroke-opacity=".45" stroke-width="2">
+    <path d="M600 250 L 300 160"/>
+    <path d="M600 250 L 900 160"/>
+    <path d="M600 350 L 300 470"/>
+    <path d="M600 350 L 900 470"/>
+  </g>
+
+  <!-- dimension tables -->
+  <g>
+    <g fill="#18233d" stroke="#4d94f0" stroke-opacity=".45" stroke-width="2">
+      <rect x="150" y="110" width="200" height="100" rx="12"/>
+      <rect x="850" y="110" width="200" height="100" rx="12"/>
+      <rect x="150" y="420" width="200" height="100" rx="12"/>
+      <rect x="850" y="420" width="200" height="100" rx="12"/>
+    </g>
+    <g fill="#4d94f0" fill-opacity=".55">
+      <rect x="150" y="110" width="200" height="26" rx="12"/>
+      <rect x="850" y="110" width="200" height="26" rx="12"/>
+      <rect x="150" y="420" width="200" height="26" rx="12"/>
+      <rect x="850" y="420" width="200" height="26" rx="12"/>
+    </g>
+    <g fill="#8fb4e8" fill-opacity=".5">
+      <rect x="172" y="154" width="120" height="7" rx="3.5"/>
+      <rect x="172" y="176" width="90" height="7" rx="3.5"/>
+      <rect x="872" y="154" width="120" height="7" rx="3.5"/>
+      <rect x="872" y="176" width="90" height="7" rx="3.5"/>
+      <rect x="172" y="464" width="120" height="7" rx="3.5"/>
+      <rect x="172" y="486" width="90" height="7" rx="3.5"/>
+      <rect x="872" y="464" width="120" height="7" rx="3.5"/>
+      <rect x="872" y="486" width="90" height="7" rx="3.5"/>
+    </g>
+  </g>
+
+  <!-- fact table -->
+  <g>
+    <rect x="480" y="230" width="240" height="140" rx="14" fill="#1b2540" stroke="#f4623a" stroke-opacity=".8" stroke-width="2.5"/>
+    <rect x="480" y="230" width="240" height="30" rx="14" fill="#f4623a" fill-opacity=".85"/>
+    <g fill="#ffffff" fill-opacity=".7">
+      <rect x="506" y="282" width="150" height="8" rx="4"/>
+      <rect x="506" y="306" width="118" height="8" rx="4"/>
+      <rect x="506" y="330" width="136" height="8" rx="4"/>
+    </g>
+  </g>
+
+  <!-- join endpoints -->
+  <g fill="#0d1426" stroke="#4d94f0" stroke-width="3">
+    <circle cx="350" cy="160" r="6"/><circle cx="850" cy="160" r="6"/>
+    <circle cx="350" cy="470" r="6"/><circle cx="850" cy="470" r="6"/>
+  </g>
+</svg>
