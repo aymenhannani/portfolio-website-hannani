@@ -167,11 +167,17 @@ if (spySections.length && "IntersectionObserver" in window) {
  * Each portfolio card is a <button data-project="...">. Opening reads the
  * card's own title/tag/artwork and clones the matching <template id="detail-...">
  * so the long-form copy only ever lives in the HTML.
+ *
+ * The same dialog is the second entry point for Work Experience: a role
+ * carrying data-related-projects opens the detail view of its one project, or
+ * a picker listing them when a role has several.
  */
 
 const modal = document.querySelector("[data-modal]");
 const modalDialog = document.querySelector("[data-modal-dialog]");
+const modalArtFigure = document.querySelector("[data-modal-art-figure]");
 const modalArt = document.querySelector("[data-modal-art]");
+const modalBack = document.querySelector("[data-modal-back]");
 const modalTag = document.querySelector("[data-modal-tag]");
 const modalTitle = document.querySelector("[data-modal-title]");
 const modalDetail = document.querySelector("[data-modal-detail]");
@@ -180,8 +186,11 @@ const projectCards = document.querySelectorAll("[data-project]");
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])';
 
-// the card that opened the dialog, so focus can be handed back on close
+// the control that opened the dialog, so focus can be handed back on close
 let lastFocused = null;
+
+// set while a detail view was reached through a picker; re-renders that picker
+let goBack = null;
 
 const getFocusable = function () {
   return Array.prototype.filter.call(
@@ -190,9 +199,24 @@ const getFocusable = function () {
   );
 };
 
-const openModal = function (card) {
-  lastFocused = card;
+/* the portfolio card is the single source of title, tag and artwork, whether
+   the project is reached from the grid or from a role in the timeline */
+const cardFor = function (id) {
+  return document.querySelector('[data-project="' + id.replace(/^detail-/, "") + '"]');
+};
 
+const showDialog = function () {
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  modalDialog.scrollTop = 0;
+
+  // first stop is the close button — predictable for screen reader users
+  const focusable = getFocusable();
+  if (focusable.length) focusable[0].focus();
+};
+
+/* view 1 — the full case study for one project */
+const renderDetail = function (card) {
   const title = card.querySelector("[data-card-title]");
   const subtitle = card.querySelector("[data-card-subtitle]");
 
@@ -208,18 +232,81 @@ const openModal = function (card) {
   const template = document.getElementById("detail-" + card.dataset.project);
   if (template) modalDetail.appendChild(template.content.cloneNode(true));
 
-  modal.hidden = false;
-  document.body.classList.add("modal-open");
+  modalArtFigure.hidden = false;
+  modalContact.hidden = false;
+  modalBack.hidden = !goBack;
+};
 
-  // first stop is the close button — predictable for screen reader users
-  const focusable = getFocusable();
-  if (focusable.length) focusable[0].focus();
+/* view 2 — the shortlist shown when one role covers several projects */
+const renderPicker = function (cards, roleLabel) {
+  modalTag.textContent = "Related projects";
+  modalTitle.textContent = roleLabel;
+
+  modalDetail.innerHTML = "";
+
+  const list = document.createElement("ul");
+  list.className = "portfolio-list modal-picker";
+
+  for (let i = 0; i < cards.length; i++) {
+    const item = document.createElement("li");
+    const clone = cards[i].cloneNode(true);
+    const source = cards[i];
+
+    clone.addEventListener("click", function () {
+      goBack = function () { renderPicker(cards, roleLabel); };
+      renderDetail(source);
+      modalDialog.scrollTop = 0;
+      const focusable = getFocusable();
+      if (focusable.length) focusable[0].focus();
+    });
+
+    item.appendChild(clone);
+    list.appendChild(item);
+  }
+
+  modalDetail.appendChild(list);
+
+  // no single project to illustrate or enquire about at this level
+  modalArtFigure.hidden = true;
+  modalContact.hidden = true;
+  modalBack.hidden = true;
+};
+
+const openModal = function (card, trigger) {
+  lastFocused = trigger || card;
+  goBack = null;
+  renderDetail(card);
+  showDialog();
+};
+
+const openRelated = function (trigger) {
+  const item = trigger.closest("[data-related-projects]");
+  if (!item) return;
+
+  const cards = (item.dataset.relatedProjects || "")
+    .split(/\s+/).filter(Boolean).map(cardFor).filter(Boolean);
+
+  if (!cards.length) return;
+
+  if (cards.length === 1) {
+    openModal(cards[0], trigger);
+    return;
+  }
+
+  const role = item.querySelector(".timeline-role");
+
+  lastFocused = trigger;
+  goBack = null;
+  renderPicker(cards, role ? role.textContent.trim() : "Related projects");
+  showDialog();
 };
 
 const closeModal = function () {
   modal.hidden = true;
   document.body.classList.remove("modal-open");
   modalDialog.scrollTop = 0;
+  goBack = null;
+  modalBack.hidden = true;
 
   if (lastFocused) {
     lastFocused.focus();
@@ -232,6 +319,28 @@ for (let i = 0; i < projectCards.length; i++) {
     openModal(this);
   });
 }
+
+const relatedTriggers = document.querySelectorAll("[data-related-trigger]");
+
+for (let i = 0; i < relatedTriggers.length; i++) {
+  relatedTriggers[i].addEventListener("click", function () {
+    openRelated(this);
+  });
+}
+
+// step back to the picker rather than out of the dialog altogether
+const stepBack = function () {
+  if (!goBack) return false;
+  const back = goBack;
+  goBack = null;
+  back();
+  modalDialog.scrollTop = 0;
+  const focusable = getFocusable();
+  if (focusable.length) focusable[0].focus();
+  return true;
+};
+
+modalBack.addEventListener("click", stepBack);
 
 const closeTriggers = document.querySelectorAll("[data-modal-close]");
 
@@ -246,7 +355,8 @@ document.addEventListener("keydown", function (event) {
   if (modal.hidden) return;
 
   if (event.key === "Escape") {
-    closeModal();
+    // from a picker-opened detail, the first Escape only steps back
+    if (!stepBack()) closeModal();
     return;
   }
 

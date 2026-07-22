@@ -203,6 +203,102 @@
 
 
 /*-----------------------------------*\
+  #DIAGRAM PALETTE
+\*-----------------------------------*/
+
+/**
+ * Scoped tokens for the case-study illustrations ONLY.
+ *
+ * These diagrams need an extra encoding the UI system does not have: the
+ * medallion layers (Bronze / Silver / Gold). --dia-gold is amber, but it is a
+ * *data-layer* encoding, NOT the CREDENTIAL role — that is why it lives in its
+ * own namespace and is never referenced by a UI chip. Real credential amber
+ * stays on --accent-secondary and is used only for certifications.
+ */
+
+:root {
+  --dia-node-bg: var(--surface-2);
+  --dia-chip-bg: var(--surface-3);
+  --dia-border: rgba(255, 255, 255, 0.10);
+  --dia-border-strong: rgba(255, 255, 255, 0.16);
+  --dia-text: var(--fg);
+  --dia-text-muted: var(--text);
+  --dia-text-dim: var(--text-muted);
+
+  --dia-flow: var(--accent-primary);
+  --dia-flow-soft: #7fe3d4;
+  --dia-flow-bg: rgba(45, 212, 191, 0.08);
+  --dia-flow-line: rgba(45, 212, 191, 0.42);
+
+  --dia-struct: var(--accent-neutral-ink);
+  --dia-struct-bg: rgba(125, 138, 184, 0.07);
+  --dia-struct-line: rgba(125, 138, 184, 0.48);
+
+  --dia-alert: #e8796a;
+  --dia-alert-soft: #efa094;
+  --dia-alert-bg: rgba(232, 121, 106, 0.12);
+  --dia-alert-line: rgba(232, 121, 106, 0.45);
+
+  --dia-bronze: #e8b478;
+  --dia-bronze-dim: #cfa279;
+  --dia-bronze-bg: rgba(203, 133, 58, 0.13);
+  --dia-bronze-line: rgba(203, 133, 58, 0.55);
+
+  --dia-silver: #cfd5e6;
+  --dia-silver-dim: #aab3cc;
+  --dia-silver-bg: rgba(160, 168, 190, 0.12);
+  --dia-silver-line: rgba(160, 168, 190, 0.5);
+
+  --dia-gold: #f5c968;
+  --dia-gold-dim: #dcb76c;
+  --dia-gold-bg: rgba(245, 185, 66, 0.14);
+  --dia-gold-line: rgba(245, 185, 66, 0.55);
+}
+
+[data-theme="light"] {
+  --dia-node-bg: #ffffff;
+  --dia-chip-bg: #eef0f6;
+  --dia-border: rgba(19, 24, 41, 0.14);
+  --dia-border-strong: rgba(19, 24, 41, 0.22);
+  --dia-text: #131829;
+  --dia-text-muted: #2b3245;
+  --dia-text-dim: #59617a;
+
+  --dia-flow: #0b7a70;
+  --dia-flow-soft: #08635b;
+  --dia-flow-bg: rgba(11, 122, 112, 0.08);
+  --dia-flow-line: rgba(11, 122, 112, 0.45);
+
+  --dia-struct: #545f80;
+  --dia-struct-bg: rgba(84, 95, 128, 0.07);
+  --dia-struct-line: rgba(84, 95, 128, 0.5);
+
+  --dia-alert: #b03a29;
+  --dia-alert-soft: #8f2f22;
+  --dia-alert-bg: rgba(176, 58, 41, 0.10);
+  --dia-alert-line: rgba(176, 58, 41, 0.45);
+
+  --dia-bronze: #8a5a1e;
+  --dia-bronze-dim: #7a5223;
+  --dia-bronze-bg: rgba(138, 90, 30, 0.12);
+  --dia-bronze-line: rgba(138, 90, 30, 0.5);
+
+  --dia-silver: #464e63;
+  --dia-silver-dim: #5b6480;
+  --dia-silver-bg: rgba(90, 100, 128, 0.10);
+  --dia-silver-line: rgba(90, 100, 128, 0.45);
+
+  --dia-gold: #8f5b00;
+  --dia-gold-dim: #7d5000;
+  --dia-gold-bg: rgba(143, 91, 0, 0.11);
+  --dia-gold-line: rgba(143, 91, 0, 0.5);
+}
+
+
+
+
+
+/*-----------------------------------*\
   #RESET
 \*-----------------------------------*/
 
@@ -966,6 +1062,47 @@ body {
   background-color: var(--accent-neutral-ink); /* STRUCTURAL, slate */
 }
 
+/* roles that link out to a case study — ACTION, so teal. Roles without
+   data-related-projects inherit none of this and keep their plain treatment. */
+.timeline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 16px;
+  color: var(--accent-primary);
+  font-family: var(--ff-barlow);
+  font-size: var(--fs-6);
+  font-weight: var(--fw-700);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: 1px solid var(--accent-primary-line);
+  border-radius: var(--radius-pill);
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: var(--transition-2);
+}
+
+.timeline-link ion-icon {
+  font-size: 1.6rem;
+  transition: var(--transition-2);
+}
+
+.timeline-link:is(:hover, :focus-visible) {
+  color: var(--accent-primary-ink);
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.timeline-link:is(:hover, :focus-visible) ion-icon { transform: translateX(4px); }
+
+/* hovering anywhere on a linked card previews the affordance */
+.timeline-item[data-related-projects] .timeline-card:hover .timeline-link {
+  color: var(--accent-primary-ink);
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
 /* --- education / languages strip -------------------------------------- */
 
 .fact-grid {
@@ -1153,7 +1290,7 @@ body {
 
 .modal-dialog {
   position: relative;
-  width: min(880px, 100%);
+  width: min(1040px, 100%);
   max-height: calc(100vh - 32px);
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -1211,6 +1348,43 @@ body {
 }
 
 .modal-body { padding: 26px 22px 30px; }
+
+/* shown only on a detail view reached through a role's project picker */
+.modal-back[hidden] { display: none; }
+
+.modal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-end: 16px;
+  color: var(--accent-primary);
+  font-family: var(--ff-barlow);
+  font-size: var(--fs-6);
+  font-weight: var(--fw-700);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: 1px solid var(--accent-primary-line);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: var(--transition-2);
+}
+
+.modal-back:is(:hover, :focus-visible) {
+  color: var(--accent-primary-ink);
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+/* the picker reuses the portfolio card wholesale, just at a calmer height */
+.modal-picker { margin-block-end: 4px; }
+
+.modal-picker .portfolio-card { min-height: 260px; }
+
+.modal-art[hidden] { display: none; }
+
+.modal-body > [data-modal-contact][hidden] { display: none; }
 
 .modal-tag {
   color: var(--muted-2);
@@ -1274,6 +1448,404 @@ body {
 }
 
 body.modal-open { overflow: hidden; }
+
+
+
+
+
+/*-----------------------------------*\
+  #CASE STUDY (inside the project dialog)
+\*-----------------------------------*/
+
+/**
+ * Long-form project detail. Uses the site's own scale — --ff-barlow for
+ * headings, the 10px rem scale, --radius-15, and the three accent roles.
+ * Amber never appears here outside the diagrams (see #DIAGRAM PALETTE).
+ */
+
+.cs-eyebrow {
+  color: var(--accent-neutral-ink);
+  font-family: var(--ff-barlow);
+  font-size: 1.3rem;
+  font-weight: var(--fw-700);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-block-end: 10px;
+}
+
+.cs-role-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.45rem;
+  color: var(--text-muted);
+  margin-block-end: 18px;
+}
+
+.cs-role-line b {
+  color: var(--fg);
+  font-family: var(--ff-barlow);
+  font-weight: var(--fw-600);
+}
+
+.cs-role-line .cs-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accent-neutral-ink);
+  flex: none;
+}
+
+.cs-lead {
+  font-size: 1.7rem;
+  line-height: 1.75;
+  color: var(--text);
+  margin-block-end: 22px;
+}
+
+.cs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cs-chips li {
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  font-family: var(--ff-barlow);
+  font-size: 1.4rem;
+  font-weight: var(--fw-600);
+  padding: 6px 14px;
+}
+
+/* --- section rhythm ------------------------------------------------ */
+
+.cs-section {
+  margin-block-start: 40px;
+  padding-block-start: 32px;
+  border-block-start: 1px solid var(--line);
+}
+
+.cs-h2 {
+  color: var(--accent-neutral-ink);
+  font-family: var(--ff-barlow);
+  font-size: 1.3rem;
+  font-weight: var(--fw-700);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-block-end: 6px;
+}
+
+.cs-h3 {
+  color: var(--fg);
+  font-family: var(--ff-barlow);
+  font-size: 2.2rem;
+  font-weight: var(--fw-600);
+  line-height: 1.3;
+  margin-block-end: 14px;
+}
+
+.cs-text {
+  color: var(--text);
+  font-size: 1.55rem;
+  line-height: 1.8;
+  max-width: 72ch;
+  margin-block-end: 18px;
+}
+
+/* --- source tags ---------------------------------------------------- */
+
+.cs-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block-end: 24px;
+}
+
+.cs-sources li {
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-5);
+  color: var(--text-muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 1.3rem;
+  padding: 5px 11px;
+}
+
+/* --- diagrams ------------------------------------------------------- */
+
+.cs-figure { margin-block: 26px 0; }
+
+/**
+ * The diagrams carry a lot of small labels. Rather than shrink them into
+ * illegibility on a phone, the canvas keeps a readable minimum width and
+ * pans horizontally inside its own scroller.
+ */
+.cs-diagram {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-15);
+  background-color: var(--surface);
+  padding: 14px;
+}
+
+.cs-diagram svg {
+  display: block;
+  width: 100%;
+  min-width: 760px;
+  height: auto;
+  /* the site's own type, instead of the reference file's generic sans-serif */
+  font-family: var(--ff-open-sans);
+}
+
+.cs-diagram svg .cs-mono {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+.cs-figcaption {
+  color: var(--text-muted);
+  font-size: 1.3rem;
+  line-height: 1.6;
+  text-align: center;
+  margin-block-start: 12px;
+}
+
+.cs-scrollhint {
+  display: block;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  margin-block-end: 8px;
+}
+
+/* --- KPI domains ---------------------------------------------------- */
+
+.cs-kpis,
+.cs-phases {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+}
+
+.cs-kpi,
+.cs-phase {
+  position: relative;
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-15);
+  padding: 18px 20px;
+}
+
+.cs-kpi h4,
+.cs-phase h4 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--fg);
+  font-family: var(--ff-barlow);
+  font-size: 1.6rem;
+  font-weight: var(--fw-600);
+  margin-block-end: 10px;
+}
+
+/* structural marker — deliberately NOT credential amber */
+.cs-kpi .cs-num {
+  flex: none;
+  color: var(--accent-neutral-ink);
+  font-size: 1.2rem;
+  font-weight: var(--fw-700);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-5);
+  padding: 1px 7px;
+}
+
+.cs-kpi ul { display: grid; gap: 4px; }
+
+.cs-kpi li {
+  position: relative;
+  color: var(--text);
+  font-size: 1.4rem;
+  line-height: 1.6;
+  padding-inline-start: 16px;
+}
+
+.cs-kpi li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accent-neutral-ink);
+}
+
+/* --- roadmap -------------------------------------------------------- */
+
+.cs-phase .cs-step {
+  position: absolute;
+  top: 16px;
+  inset-inline-end: 16px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  color: var(--accent-neutral-ink);
+  font-size: 1.2rem;
+  font-weight: var(--fw-700);
+}
+
+.cs-phase .cs-when {
+  display: inline-block;
+  color: var(--text);
+  font-family: var(--ff-barlow);
+  font-size: 1.25rem;
+  font-weight: var(--fw-700);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: var(--accent-neutral);
+  border: 1px solid var(--accent-neutral-line);
+  border-radius: var(--radius-pill);
+  padding: 2px 10px;
+  margin-block-end: 8px;
+}
+
+.cs-phase h4 { margin-block-end: 6px; }
+
+.cs-phase p {
+  color: var(--text);
+  font-size: 1.4rem;
+  line-height: 1.6;
+}
+
+/* --- governance / outcomes ------------------------------------------ */
+
+.cs-gov,
+.cs-out {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+}
+
+.cs-gov li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-15);
+  padding: 14px 16px;
+}
+
+.cs-gov b {
+  display: block;
+  color: var(--fg);
+  font-family: var(--ff-barlow);
+  font-size: 1.45rem;
+  font-weight: var(--fw-600);
+  margin-block-end: 2px;
+}
+
+.cs-gov b + span {
+  display: block;
+  color: var(--text);
+  font-size: 1.35rem;
+  line-height: 1.6;
+}
+
+.cs-out li {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  color: var(--text);
+  font-size: 1.45rem;
+  line-height: 1.65;
+}
+
+/* repeated markers stay structural, per the site's accent rules */
+.cs-mark {
+  flex: none;
+  color: var(--accent-neutral-ink);
+  font-weight: var(--fw-700);
+  line-height: 1.5;
+}
+
+/* --- my role -------------------------------------------------------- */
+
+.cs-role {
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-15);
+  padding: 22px;
+}
+
+.cs-role .cs-h3 { margin-block-end: 8px; }
+
+.cs-role ul {
+  display: grid;
+  gap: 9px;
+  margin-block-start: 12px;
+}
+
+.cs-role li {
+  position: relative;
+  color: var(--text);
+  font-size: 1.45rem;
+  line-height: 1.7;
+  padding-inline-start: 18px;
+}
+
+.cs-role li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-neutral-ink);
+}
+
+.cs-role li b {
+  color: var(--fg);
+  font-weight: var(--fw-600);
+}
+
+/* --- closing note --------------------------------------------------- */
+
+.cs-close .cs-h3 { margin-block-end: 8px; }
+
+.cs-close .cs-text { margin-block-end: 0; }
+
+
+@media (min-width: 620px) {
+  .cs-kpis,
+  .cs-phases,
+  .cs-gov,
+  .cs-out { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .cs-kpis,
+  .cs-phases { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* wide enough for the diagrams to fit without panning */
+@media (min-width: 860px) {
+  .cs-diagram {
+    overflow-x: visible;
+    padding: 18px;
+  }
+
+  .cs-diagram svg { min-width: 0; }
+
+  .cs-scrollhint { display: none; }
+}
 
 
 
