@@ -1188,6 +1188,8 @@ body {
 .portfolio-card[data-project="python-automation"] { background-image: url("../images/art-automation.svg"); }
 .portfolio-card[data-project="joutyat-la-bourse"] { background-image: url("../images/art-stock-market.svg"); }
 .portfolio-card[data-project="mediamind-academy"] { background-image: url("../images/art-coaching.svg"); }
+/* related-only project (picker card, not shown in the Portfolio grid) */
+.portfolio-card[data-project="qlik-migration"]    { background-image: url("../images/art-qlik-migration.svg"); }
 
 [data-theme="light"] .portfolio-card[data-project="fabric-platform"]   { background-image: url("../images/art-fabric-platform-light.svg"); }
 [data-theme="light"] .portfolio-card[data-project="powerbi-suites"]    { background-image: url("../images/art-dashboards-light.svg"); }
@@ -1195,6 +1197,7 @@ body {
 [data-theme="light"] .portfolio-card[data-project="python-automation"] { background-image: url("../images/art-automation-light.svg"); }
 [data-theme="light"] .portfolio-card[data-project="joutyat-la-bourse"] { background-image: url("../images/art-stock-market-light.svg"); }
 [data-theme="light"] .portfolio-card[data-project="mediamind-academy"] { background-image: url("../images/art-coaching-light.svg"); }
+[data-theme="light"] .portfolio-card[data-project="qlik-migration"]    { background-image: url("../images/art-qlik-migration-light.svg"); }
 
 /**
  * SCRIM — guarantees the title is legible over any artwork.
@@ -1775,6 +1778,83 @@ body.modal-open { overflow: hidden; }
   line-height: 1.5;
 }
 
+/* --- audience suites (Power BI dashboard suites) -------------------- */
+
+.cs-suites {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+.cs-suite {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-15);
+  padding: 20px;
+}
+
+.cs-suite-tag {
+  color: var(--accent-neutral-ink);
+  font-family: var(--ff-barlow);
+  font-size: 1.2rem;
+  font-weight: var(--fw-700);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cs-suite h4 {
+  color: var(--fg);
+  font-family: var(--ff-barlow);
+  font-size: 1.75rem;
+  font-weight: var(--fw-600);
+  margin-block: 8px 8px;
+}
+
+.cs-suite > p {
+  color: var(--text);
+  font-size: 1.4rem;
+  line-height: 1.6;
+  margin-block-end: 12px;
+}
+
+.cs-suite ul {
+  display: grid;
+  gap: 5px;
+  flex-grow: 1;
+}
+
+.cs-suite li {
+  position: relative;
+  color: var(--text-muted);
+  font-size: 1.35rem;
+  line-height: 1.55;
+  padding-inline-start: 16px;
+}
+
+.cs-suite li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accent-neutral-ink);
+}
+
+/* audience label — a categorisation, so STRUCTURAL slate (not ACTION teal) */
+.cs-suite-audience {
+  margin-block-start: 14px;
+  padding-block-start: 12px;
+  border-block-start: 1px dashed var(--line);
+  color: var(--accent-neutral-ink);
+  font-family: var(--ff-barlow);
+  font-size: 1.25rem;
+  font-weight: var(--fw-700);
+}
+
 /* --- my role -------------------------------------------------------- */
 
 .cs-role {
@@ -1833,6 +1913,11 @@ body.modal-open { overflow: hidden; }
 @media (min-width: 900px) {
   .cs-kpis,
   .cs-phases { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* the three dashboard suites sit side by side once there's room */
+@media (min-width: 820px) {
+  .cs-suites { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* wide enough for the diagrams to fit without panning */
@@ -2258,6 +2343,22 @@ a.contact-item-link:is(:hover, :focus-visible) { text-decoration: underline; }
   .portfolio-list > li:nth-child(even) .portfolio-card::before {
     background:
       linear-gradient(to left,
+        rgba(var(--bg-rgb), 0.95) 0%,
+        rgba(var(--bg-rgb), 0.82) 45%,
+        rgba(var(--bg-rgb), 0.25) 100%),
+      linear-gradient(to top, rgba(var(--bg-rgb), 0.55), transparent 60%);
+  }
+
+  /**
+   * Inside the related-projects picker, every card reads the same way — the
+   * Portfolio section's left/right alternation is neutralised here only, so the
+   * list is not mirrored. The real Portfolio grid keeps its alternation.
+   */
+  .modal-picker > li:nth-child(even) .card-content { margin-inline-start: 0; }
+
+  .modal-picker > li:nth-child(even) .portfolio-card::before {
+    background:
+      linear-gradient(to right,
         rgba(var(--bg-rgb), 0.95) 0%,
         rgba(var(--bg-rgb), 0.82) 45%,
         rgba(var(--bg-rgb), 0.25) 100%),

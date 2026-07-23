@@ -288,11 +288,8 @@ const openRelated = function (trigger) {
 
   if (!cards.length) return;
 
-  if (cards.length === 1) {
-    openModal(cards[0], trigger);
-    return;
-  }
-
+  // the experience entry always lands on the related-projects list first —
+  // even for a single project — so the flow is consistent: role → list → detail
   const role = item.querySelector(".timeline-role");
 
   lastFocused = trigger;
