@@ -331,7 +331,7 @@
                 dialog directly; two or more open a short picker first. Roles without
                 the attribute stay non-interactive.
               -->
-              <li class="timeline-item" data-related-projects="detail-fabric-platform detail-powerbi-suites detail-qlik-migration">
+              <li class="timeline-item" data-related-projects="detail-fabric-platform detail-data-modeling detail-powerbi-suites detail-qlik-migration">
                 <div class="timeline-card">
                   <p class="timeline-date">Nov 2025 – Apr 2026</p>
                   <h3 class="h3 timeline-role">Product Owner Data &amp; BI</h3>
@@ -352,7 +352,7 @@
                 </div>
               </li>
 
-              <li class="timeline-item">
+              <li class="timeline-item" data-related-projects="detail-sg-doc-automation detail-bi-performance-dashboards">
                 <div class="timeline-card">
                   <p class="timeline-date">Jul 2022 – Sep 2025</p>
                   <h3 class="h3 timeline-role">BI Consultant / Business Analyst</h3>
@@ -364,6 +364,12 @@
                     <li>Delivered training and presentations to senior audiences across the Paris, London and Casablanca
                       offices, in French and English.</li>
                   </ul>
+
+                  <button type="button" class="timeline-link" data-related-trigger
+                    aria-label="View related projects for BI Consultant / Business Analyst">
+                    <span>View related projects</span>
+                    <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                  </button>
                 </div>
               </li>
 
@@ -979,6 +985,40 @@
 
         <span class="h3 card-title" data-card-title>Retiring legacy Qlik reporting: quality dashboards rebuilt on
           Microsoft Fabric</span>
+
+        <span class="btn-link">
+          <span>View Details</span>
+
+          <ion-icon name="arrow-forward"></ion-icon>
+        </span>
+
+      </span>
+    </button>
+
+    <button type="button" class="portfolio-card" data-project="sg-doc-automation"
+      data-art="./assets/images/art-sg-doc-automation.svg" data-art-light="./assets/images/art-sg-doc-automation-light.svg">
+      <span class="card-content">
+
+        <span class="card-subtitle" data-card-subtitle>Documentation automation / Equity Derivatives</span>
+
+        <span class="h3 card-title" data-card-title>Automated documentation for structured products</span>
+
+        <span class="btn-link">
+          <span>View Details</span>
+
+          <ion-icon name="arrow-forward"></ion-icon>
+        </span>
+
+      </span>
+    </button>
+
+    <button type="button" class="portfolio-card" data-project="bi-performance-dashboards"
+      data-art="./assets/images/art-bi-performance.svg" data-art-light="./assets/images/art-bi-performance-light.svg">
+      <span class="card-content">
+
+        <span class="card-subtitle" data-card-subtitle>Business Intelligence / Benchmarking</span>
+
+        <span class="h3 card-title" data-card-title>Financial-products performance dashboards across banks and providers</span>
 
         <span class="btn-link">
           <span>View Details</span>
@@ -1673,6 +1713,491 @@
 
   </template>
 
+
+  <!--
+    - CASE STUDY — sg-doc-automation
+    - Experience-only project (reached through the SG Template-Manager role, no
+    - portfolio tile). Copy and the automation diagram come from the supplied
+    - reference page, restyled onto the site's own tokens; diagram fills use the
+    - scoped --dia-* palette. Amber lives ONLY in the SVG (--dia-gold); the
+    - "why it's hard" markers are structural slate, not credential amber.
+  -->
+  <template id="detail-sg-doc-automation">
+
+    <p class="cs-eyebrow">Société Générale · Equity Derivatives</p>
+
+    <p class="cs-role-line">
+      <b>Template Manager, Equity Derivatives</b>
+      <span class="cs-dot"></span>Documentation automation
+      <span class="cs-dot"></span>Zero-error, client-facing
+    </p>
+
+    <p class="cs-lead">
+      Banks sell complex investment products whose exact terms — the levels, coupons and dates
+      that decide what a client is actually paid — have to appear perfectly on every legal and
+      marketing document. I built and ran the system that produced those documents
+      automatically: accurately, at growing scale, and with far less manual work.
+    </p>
+
+    <ul class="cs-chips">
+      <li>Structured products</li>
+      <li>Autocalls · Athena / Phoenix</li>
+      <li>Rate products</li>
+      <li>Template automation</li>
+      <li>Banking-grade controls</li>
+    </ul>
+
+
+    <!-- ── What these products are ───────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">First, what these products are</p>
+      <h4 class="cs-h3">A quick, plain-language tour</h4>
+      <p class="cs-text">
+        A structured product is an investment whose payout follows a set of rules tied to a
+        market level — a stock, an index, or an interest rate. Each rule is a precise number:
+        the level that triggers early repayment, the level above which a coupon is paid, the
+        protection level below which capital is at risk, the coupon size, the maturity, and the
+        dates it's all observed. I owned the documents for these families:
+      </p>
+
+      <div class="cs-suites">
+        <div class="cs-suite">
+          <div class="cs-suite-tag">Autocall</div>
+          <h4>Athena</h4>
+          <p>Coupons build up and are paid in one lump when the product repays early or matures.</p>
+        </div>
+        <div class="cs-suite">
+          <div class="cs-suite-tag">Autocall</div>
+          <h4>Phoenix</h4>
+          <p>Pays conditional coupons periodically through its life, and can repay early if a level is reached.</p>
+        </div>
+        <div class="cs-suite">
+          <div class="cs-suite-tag">Autocall</div>
+          <h4>Phoenix Memory</h4>
+          <p>Like Phoenix, but a missed coupon is remembered and caught up once the level is met again.</p>
+        </div>
+        <div class="cs-suite">
+          <div class="cs-suite-tag">Autocall</div>
+          <h4>Daily Autocall</h4>
+          <p>The early-repayment level is watched every day rather than on a few set dates — high-frequency.</p>
+        </div>
+        <div class="cs-suite">
+          <div class="cs-suite-tag">Rate product</div>
+          <h4>Fixed-rate</h4>
+          <p>Pays a coupon set in advance — a different calculation convention from the autocalls.</p>
+        </div>
+        <div class="cs-suite">
+          <div class="cs-suite-tag">Rate product</div>
+          <h4>Floating-rate</h4>
+          <p>The coupon tracks a reference rate plus a spread, recalculated each period.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── Why it's hard ─────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">Why it's harder than it sounds</p>
+      <h4 class="cs-h3">"Document generation" undersells it</h4>
+      <p class="cs-text">
+        Every one of these documents is effectively a legal contract sent to clients. A single
+        wrong figure — a barrier one percent off, a coupon mislabelled — isn't a typo, it's a
+        financial and regulatory liability. Now multiply that by dozens of parameters per
+        product, several payoff types that each read differently, and a book of hundreds of
+        live products that keeps growing.
+      </p>
+      <ul class="cs-gov">
+        <li><span class="cs-mark">✓</span><span><b>Precision, not prose</b><span>Dozens of exact parameters per product must be represented perfectly and consistently.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Many payoff types</b><span>Athena, Phoenix, Phoenix Memory, Daily Autocall, fixed and floating rate — each with its own logic and wording.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Client-facing &amp; regulated</b><span>These go to investors. Zero tolerance for error, full traceability expected.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Volume that keeps growing</b><span>Hundreds of live products, plus an increasing share of bespoke, one-off structures.</span></span></li>
+      </ul>
+    </section>
+
+
+    <!-- ── What I built (centrepiece) ────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">What I built</p>
+      <h4 class="cs-h3">From product parameters to compliant documents — automatically</h4>
+      <p class="cs-text">
+        Instead of drafting each document by hand, the parameters of a product feed a
+        payoff-aware template engine that assembles the right document for the right payoff
+        type, passes through accuracy controls, and produces the client-ready term sheet,
+        marketing and legal documents.
+      </p>
+
+      <figure class="cs-figure">
+        <span class="cs-scrollhint">↔ Scroll the diagram horizontally</span>
+        <div class="cs-diagram">
+          <svg viewBox="0 0 1000 360" role="img" aria-labelledby="sg-eng-t sg-eng-d">
+            <title id="sg-eng-t">Documentation automation flow</title>
+            <desc id="sg-eng-d">Per-product parameters feed a payoff-aware template engine, through accuracy controls, producing client-ready documents.</desc>
+            <defs>
+              <marker id="sg-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="var(--dia-struct)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+              <marker id="sg-ah-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="var(--dia-flow)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <!-- inputs -->
+            <text x="24" y="30" fill="var(--dia-text-dim)" font-size="12" font-weight="700" letter-spacing="1.5">PER-PRODUCT INPUTS</text>
+            <rect x="24" y="42" width="220" height="286" rx="12" fill="var(--dia-struct-bg)" stroke="var(--dia-struct-line)" stroke-dasharray="5 5"/>
+            <g class="cs-mono" font-size="11.5">
+              <rect x="42" y="60" width="184" height="34" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="134" y="82" fill="var(--dia-text-muted)" text-anchor="middle">Underlying</text>
+              <rect x="42" y="102" width="184" height="34" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="134" y="124" fill="var(--dia-text-muted)" text-anchor="middle">Barriers · coupon/autocall/put</text>
+              <rect x="42" y="144" width="184" height="34" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="134" y="166" fill="var(--dia-text-muted)" text-anchor="middle">Coupon &amp; memory</text>
+              <rect x="42" y="186" width="184" height="34" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="134" y="208" fill="var(--dia-text-muted)" text-anchor="middle">Maturity</text>
+              <rect x="42" y="228" width="184" height="34" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="134" y="250" fill="var(--dia-text-muted)" text-anchor="middle">Observation dates</text>
+              <rect x="42" y="270" width="184" height="34" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="134" y="292" fill="var(--dia-text-muted)" text-anchor="middle">Payoff type</text>
+            </g>
+
+            <!-- engine -->
+            <rect x="300" y="112" width="210" height="146" rx="13" fill="var(--dia-gold-bg)" stroke="var(--dia-gold-line)"/>
+            <text x="405" y="150" fill="var(--dia-gold)" font-size="15" font-weight="700" text-anchor="middle">Template engine</text>
+            <text x="405" y="172" fill="var(--dia-gold-dim)" font-size="11.5" text-anchor="middle">payoff-aware</text>
+            <text x="405" y="196" fill="var(--dia-gold-dim)" font-size="10.5" text-anchor="middle" class="cs-mono">Athena · Phoenix · Memory</text>
+            <text x="405" y="212" fill="var(--dia-gold-dim)" font-size="10.5" text-anchor="middle" class="cs-mono">Daily · Fixed · Floating</text>
+            <line x1="244" y1="185" x2="296" y2="185" stroke="var(--dia-struct)" stroke-width="1.7" marker-end="url(#sg-ah)"/>
+
+            <!-- controls gate -->
+            <rect x="566" y="128" width="170" height="114" rx="12" fill="var(--dia-flow-bg)" stroke="var(--dia-flow)" stroke-width="1.7"/>
+            <text x="651" y="162" fill="var(--dia-flow-soft)" font-size="14.5" font-weight="700" text-anchor="middle">Accuracy</text>
+            <text x="651" y="181" fill="var(--dia-flow-soft)" font-size="14.5" font-weight="700" text-anchor="middle">controls</text>
+            <text x="651" y="205" fill="var(--dia-text-muted)" font-size="10.5" text-anchor="middle">every barrier, coupon</text>
+            <text x="651" y="219" fill="var(--dia-text-muted)" font-size="10.5" text-anchor="middle">&amp; date verified</text>
+            <line x1="510" y1="185" x2="562" y2="185" stroke="var(--dia-struct)" stroke-width="1.7" marker-end="url(#sg-ah)"/>
+
+            <!-- outputs -->
+            <line x1="736" y1="185" x2="788" y2="185" stroke="var(--dia-flow)" stroke-width="1.7" marker-end="url(#sg-ah-teal)"/>
+            <g>
+              <rect x="792" y="96" width="184" height="52" rx="10" fill="var(--dia-node-bg)" stroke="var(--dia-border-strong)"/>
+              <text x="884" y="121" fill="var(--dia-text)" font-size="13.5" font-weight="600" text-anchor="middle">Term sheet</text>
+              <text x="884" y="138" fill="var(--dia-text-muted)" font-size="11" text-anchor="middle">client-ready</text>
+              <rect x="792" y="159" width="184" height="52" rx="10" fill="var(--dia-node-bg)" stroke="var(--dia-border-strong)"/>
+              <text x="884" y="184" fill="var(--dia-text)" font-size="13.5" font-weight="600" text-anchor="middle">Marketing doc</text>
+              <text x="884" y="201" fill="var(--dia-text-muted)" font-size="11" text-anchor="middle">compliant</text>
+              <rect x="792" y="222" width="184" height="52" rx="10" fill="var(--dia-node-bg)" stroke="var(--dia-border-strong)"/>
+              <text x="884" y="247" fill="var(--dia-text)" font-size="13.5" font-weight="600" text-anchor="middle">Legal doc</text>
+              <text x="884" y="264" fill="var(--dia-text-muted)" font-size="11" text-anchor="middle">traceable</text>
+            </g>
+            <path d="M788 185 L770 185 L770 122 L788 122" fill="none" stroke="var(--dia-flow)" stroke-width="1.4" marker-end="url(#sg-ah-teal)"/>
+            <path d="M788 185 L770 185 L770 248 L788 248" fill="none" stroke="var(--dia-flow)" stroke-width="1.4" marker-end="url(#sg-ah-teal)"/>
+          </svg>
+        </div>
+        <figcaption class="cs-figcaption">
+          One controlled pipeline, every payoff family — the same parameters that make the product
+          make the document.
+        </figcaption>
+      </figure>
+    </section>
+
+
+    <!-- ── The results ───────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">The results</p>
+      <h4 class="cs-h3">More output, fewer errors, freed-up people</h4>
+
+      <div class="cs-stats">
+        <div class="cs-stat-hero">
+          <div class="cs-big">+10–20%</div>
+          <div class="cs-cap">more products managed, over three years</div>
+          <div class="cs-sub">and more in real terms — a growing share were bespoke, higher-effort structures that the headline figure understates.</div>
+        </div>
+        <div class="cs-results">
+          <div class="cs-result"><span class="cs-check">✓</span><div><b>Production went up</b><span>The same team turned out more documents, faster, as the product book grew.</span></div></div>
+          <div class="cs-result"><span class="cs-check">✓</span><div><b>Manual editing went down</b><span>Automation replaced hand-drafting, cutting the slow, error-prone rework.</span></div></div>
+          <div class="cs-result"><span class="cs-check">✓</span><div><b>Marketers freed up</b><span>Less time on document mechanics meant more time on higher-value client work.</span></div></div>
+        </div>
+      </div>
+
+      <p class="cs-text">
+        The through-line: by turning documentation from manual drafting into a controlled,
+        automated pipeline, a small team absorbed a steadily rising volume — including more
+        customised products — without a matching rise in effort or error.
+      </p>
+    </section>
+
+
+    <!-- ── My role ───────────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">My role</p>
+      <div class="cs-role">
+        <h4 class="cs-h3">Template Manager, Equity Derivatives</h4>
+        <p class="cs-text">Owned the documentation layer for the structured-products range end to end:</p>
+        <ul>
+          <li><b>Template library</b> — built and maintained the templates across every payoff family, from autocalls to rate products.</li>
+          <li><b>Automation</b> — turned the parameter-to-document flow into an automated pipeline instead of manual drafting.</li>
+          <li><b>Accuracy controls</b> — defined the checks that guarantee every barrier, coupon and date on a document matches the product.</li>
+          <li><b>Scaling the function</b> — absorbed a growing, increasingly bespoke product book without a matching rise in effort.</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ── Why it matters ────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">Why it matters</p>
+      <h4 class="cs-h3">The transferable version of this story</h4>
+      <p class="cs-text">
+        This is document automation at its most demanding: high-stakes, high-volume, zero-error,
+        client-facing output driven from structured data. The same pattern — parameters in,
+        controlled documents out — is exactly what I now bring to any organisation drowning in
+        manual, repetitive document and reporting work.
+      </p>
+    </section>
+
+
+    <!-- ── Closing ───────────────────────────────────────────────── -->
+    <section class="cs-section cs-close">
+      <h4 class="cs-h3">Want the detail behind this?</h4>
+      <p class="cs-text">
+        Happy to walk through how the automation and controls worked, and how the same approach
+        maps to your document or reporting bottlenecks.
+      </p>
+    </section>
+
+  </template>
+
+
+  <!--
+    - CASE STUDY — bi-performance-dashboards
+    - Experience-only project (reached through the SG BI-Consultant role, no
+    - portfolio tile). Copy and the two diagrams come from the supplied reference
+    - page, restyled onto the site's own tokens; diagram fills use the scoped
+    - --dia-* palette. Amber lives ONLY in the SVGs (--dia-gold), never in UI.
+  -->
+  <template id="detail-bi-performance-dashboards">
+
+    <p class="cs-eyebrow">Société Générale · Business Intelligence</p>
+
+    <p class="cs-role-line">
+      <b>BI Consultant / Business Analyst</b>
+      <span class="cs-dot"></span>Trading-floor context
+      <span class="cs-dot"></span>Benchmark &amp; trend reporting
+    </p>
+
+    <p class="cs-lead">
+      How is each financial product performing — and how does one provider stack up against
+      another? I consolidated performance data scattered across many banks and providers,
+      made it genuinely comparable, and turned it into decision-support dashboards that let a
+      trading-floor audience benchmark providers and read trends at a glance.
+    </p>
+
+    <ul class="cs-chips">
+      <li>Performance benchmarking</li>
+      <li>Trend analysis</li>
+      <li>Advanced SQL · star schema</li>
+      <li>Data quality &amp; reconciliation</li>
+      <li>Senior-audience reporting</li>
+    </ul>
+
+
+    <!-- ── The challenge ─────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">The challenge</p>
+      <h4 class="cs-h3">Everyone had numbers — nobody had comparable ones</h4>
+      <p class="cs-text">
+        Performance data came from many banks and providers, each in its own format, with its own
+        conventions for how a return or a figure is defined. Comparing a product from one provider
+        against another — or tracking how the whole book moved over time — meant painstaking manual
+        work, and the answers rarely agreed. On a trading floor, where decisions are made fast and
+        on trust, that gap matters. The job was to make the numbers comparable, reconciled, and
+        instantly readable.
+      </p>
+    </section>
+
+
+    <!-- ── How it works (centrepiece) ────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">How it works</p>
+      <h4 class="cs-h3">Many providers in, one comparable view out</h4>
+      <p class="cs-text">
+        Data from every bank and provider was consolidated, then normalised and reconciled so a
+        figure means the same thing wherever it came from. That comparable data was modelled as a
+        star schema and surfaced in two lenses: a benchmark that ranks providers against each
+        other, and a trend view that tracks performance over time.
+      </p>
+
+      <figure class="cs-figure">
+        <span class="cs-scrollhint">↔ Scroll the diagram horizontally</span>
+        <div class="cs-diagram">
+          <svg viewBox="0 0 1000 320" role="img" aria-labelledby="bi-flow-t bi-flow-d">
+            <title id="bi-flow-t">Performance data consolidation flow</title>
+            <desc id="bi-flow-d">Many bank and provider sources normalised and reconciled into a comparable model feeding benchmark and trend dashboards.</desc>
+            <defs>
+              <marker id="bi-fah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="var(--dia-struct)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+              <marker id="bi-fah-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="var(--dia-flow)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <!-- sources -->
+            <text x="24" y="30" fill="var(--dia-text-dim)" font-size="12" font-weight="700" letter-spacing="1.5">BANKS &amp; PROVIDERS</text>
+            <rect x="24" y="42" width="196" height="236" rx="12" fill="var(--dia-struct-bg)" stroke="var(--dia-struct-line)" stroke-dasharray="5 5"/>
+            <g class="cs-mono" font-size="11.5">
+              <rect x="42" y="58" width="160" height="30" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="122" y="78" fill="var(--dia-text-muted)" text-anchor="middle">Bank A</text>
+              <rect x="42" y="96" width="160" height="30" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="122" y="116" fill="var(--dia-text-muted)" text-anchor="middle">Bank B</text>
+              <rect x="42" y="134" width="160" height="30" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="122" y="154" fill="var(--dia-text-muted)" text-anchor="middle">Provider C</text>
+              <rect x="42" y="172" width="160" height="30" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="122" y="192" fill="var(--dia-text-muted)" text-anchor="middle">Provider D</text>
+              <rect x="42" y="210" width="160" height="30" rx="7" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/><text x="122" y="230" fill="var(--dia-text-dim)" text-anchor="middle">+ more</text>
+            </g>
+
+            <!-- normalise & reconcile -->
+            <rect x="278" y="80" width="200" height="160" rx="13" fill="var(--dia-flow-bg)" stroke="var(--dia-flow)" stroke-width="1.7"/>
+            <text x="378" y="132" fill="var(--dia-flow-soft)" font-size="14.5" font-weight="700" text-anchor="middle">Normalise &amp;</text>
+            <text x="378" y="151" fill="var(--dia-flow-soft)" font-size="14.5" font-weight="700" text-anchor="middle">reconcile</text>
+            <text x="378" y="176" fill="var(--dia-text-muted)" font-size="11" text-anchor="middle">harmonise formats</text>
+            <text x="378" y="191" fill="var(--dia-text-muted)" font-size="11" text-anchor="middle">align conventions · quality</text>
+            <line x1="220" y1="160" x2="274" y2="160" stroke="var(--dia-struct)" stroke-width="1.7" marker-end="url(#bi-fah)"/>
+
+            <!-- comparable model -->
+            <rect x="536" y="115" width="180" height="90" rx="12" fill="var(--dia-gold-bg)" stroke="var(--dia-gold-line)"/>
+            <text x="626" y="150" fill="var(--dia-gold)" font-size="14" font-weight="700" text-anchor="middle">Comparable model</text>
+            <text x="626" y="171" fill="var(--dia-gold-dim)" font-size="11.5" text-anchor="middle">star schema · one definition</text>
+            <line x1="478" y1="160" x2="532" y2="160" stroke="var(--dia-struct)" stroke-width="1.7" marker-end="url(#bi-fah)"/>
+
+            <!-- outputs -->
+            <rect x="772" y="96" width="204" height="60" rx="11" fill="var(--dia-node-bg)" stroke="var(--dia-flow-line)"/>
+            <text x="874" y="122" fill="var(--dia-text)" font-size="13.5" font-weight="700" text-anchor="middle">Provider benchmark</text>
+            <text x="874" y="140" fill="var(--dia-text-muted)" font-size="11" text-anchor="middle">who's ahead, who's behind</text>
+            <rect x="772" y="166" width="204" height="60" rx="11" fill="var(--dia-node-bg)" stroke="var(--dia-flow-line)"/>
+            <text x="874" y="192" fill="var(--dia-text)" font-size="13.5" font-weight="700" text-anchor="middle">Performance trends</text>
+            <text x="874" y="210" fill="var(--dia-text-muted)" font-size="11" text-anchor="middle">how it moves over time</text>
+            <path d="M716 160 L744 160 L744 126 L768 126" fill="none" stroke="var(--dia-flow)" stroke-width="1.6" marker-end="url(#bi-fah-teal)"/>
+            <path d="M716 160 L744 160 L744 196 L768 196" fill="none" stroke="var(--dia-flow)" stroke-width="1.6" marker-end="url(#bi-fah-teal)"/>
+          </svg>
+        </div>
+        <figcaption class="cs-figcaption">
+          The hard part isn't the chart — it's making a dozen providers' numbers mean the same thing.
+        </figcaption>
+      </figure>
+    </section>
+
+
+    <!-- ── What the dashboards answered ──────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">What the dashboards answered</p>
+      <h4 class="cs-h3">Three questions, one trusted source</h4>
+
+      <div class="cs-suites">
+        <div class="cs-suite">
+          <div class="cs-suite-tag">Benchmark</div>
+          <h4>Who's performing best?</h4>
+          <p>Products and providers ranked side by side on a like-for-like basis.</p>
+        </div>
+        <div class="cs-suite">
+          <div class="cs-suite-tag">Trend</div>
+          <h4>Which way is it moving?</h4>
+          <p>Performance tracked over time, so shifts are seen early, not after the fact.</p>
+        </div>
+        <div class="cs-suite">
+          <div class="cs-suite-tag">Mix</div>
+          <h4>Across every product type</h4>
+          <p>Funds, structured products and other instruments, in one consolidated view.</p>
+        </div>
+      </div>
+
+      <figure class="cs-figure">
+        <span class="cs-scrollhint">↔ Scroll the diagram horizontally</span>
+        <div class="cs-diagram">
+          <svg viewBox="0 0 1000 240" role="img" aria-labelledby="bi-chart-t bi-chart-d">
+            <title id="bi-chart-t">Benchmark and trend views</title>
+            <desc id="bi-chart-d">A bar chart benchmarking providers and a line chart showing performance over time.</desc>
+            <!-- panel 1: benchmark bars -->
+            <rect x="24" y="20" width="456" height="200" rx="12" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/>
+            <text x="46" y="48" fill="var(--dia-text-muted)" font-size="12.5" font-weight="700">Provider benchmark</text>
+            <line x1="46" y1="190" x2="458" y2="190" stroke="var(--dia-border-strong)"/>
+            <g stroke="var(--dia-flow)">
+              <rect x="70"  y="96"  width="54" height="94"  rx="4" fill="var(--dia-flow)" fill-opacity=".35"/>
+              <rect x="148" y="120" width="54" height="70"  rx="4" fill="var(--dia-flow)" fill-opacity=".25" stroke-opacity=".6"/>
+              <rect x="226" y="72"  width="54" height="118" rx="4" fill="var(--dia-flow)" fill-opacity=".45"/>
+              <rect x="304" y="132" width="54" height="58"  rx="4" fill="var(--dia-flow)" fill-opacity=".22" stroke-opacity=".6"/>
+              <rect x="382" y="108" width="54" height="82"  rx="4" fill="var(--dia-flow)" fill-opacity=".3"  stroke-opacity=".6"/>
+            </g>
+            <g fill="var(--dia-text-dim)" font-size="10.5" text-anchor="middle">
+              <text x="97" y="206">A</text><text x="175" y="206">B</text><text x="253" y="206">C</text><text x="331" y="206">D</text><text x="409" y="206">E</text>
+            </g>
+
+            <!-- panel 2: trend line -->
+            <rect x="520" y="20" width="456" height="200" rx="12" fill="var(--dia-node-bg)" stroke="var(--dia-border)"/>
+            <text x="542" y="48" fill="var(--dia-text-muted)" font-size="12.5" font-weight="700">Performance over time</text>
+            <line x1="542" y1="190" x2="954" y2="190" stroke="var(--dia-border-strong)"/>
+            <polyline points="558,168 616,150 674,158 732,120 790,128 848,92 906,78 944,64"
+                      fill="none" stroke="var(--dia-gold)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+            <g fill="var(--dia-gold)">
+              <circle cx="558" cy="168" r="3"/><circle cx="616" cy="150" r="3"/><circle cx="674" cy="158" r="3"/>
+              <circle cx="732" cy="120" r="3"/><circle cx="790" cy="128" r="3"/><circle cx="848" cy="92" r="3"/>
+              <circle cx="906" cy="78" r="3"/><circle cx="944" cy="64" r="3"/>
+            </g>
+          </svg>
+        </div>
+        <figcaption class="cs-figcaption">Illustrative — a benchmark lens and a trend lens over the same reconciled data.</figcaption>
+      </figure>
+    </section>
+
+
+    <!-- ── What made it trusted ──────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">What made it trusted</p>
+      <h4 class="cs-h3">On a trading floor, the numbers have to be right</h4>
+      <ul class="cs-gov">
+        <li><span class="cs-mark">✓</span><span><b>Reconciliation</b><span>Figures cross-checked and reconciled across sources so discrepancies were caught, not shipped.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Normalisation across providers</b><span>Different formats and conventions harmonised so a comparison is genuinely like-for-like.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Advanced SQL &amp; star-schema modelling</b><span>A dimensional model so the same figures could be sliced fast and consistently.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Data-quality controls</b><span>Checks on completeness and coherence before anything reached a decision-maker.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Built for a demanding audience</b><span>Designed for a fast-moving trading-floor context where trust in the number is everything.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Explained, not just delivered</b><span>Presented and taught to senior audiences across the Paris, London and Casablanca offices, in French and English.</span></span></li>
+      </ul>
+    </section>
+
+
+    <!-- ── My role ───────────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">My role</p>
+      <div class="cs-role">
+        <h4 class="cs-h3">BI Consultant / Business Analyst</h4>
+        <p class="cs-text">Took the work from scattered provider data through to dashboards a trading floor could act on:</p>
+        <ul>
+          <li><b>Requirements</b> — gathered what decision-makers actually needed to compare and track.</li>
+          <li><b>Data engineering</b> — consolidated, normalised and reconciled provider data with advanced SQL and dimensional modelling.</li>
+          <li><b>Dashboard design</b> — built the benchmark and trend views around how the audience reads and decides.</li>
+          <li><b>Enablement</b> — delivered training and presentations to senior audiences across three offices, in two languages.</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ── Outcomes ──────────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">Outcomes</p>
+      <h4 class="cs-h3">Comparable, trusted, and read at a glance</h4>
+      <ul class="cs-out">
+        <li><span class="cs-mark">✓</span><span>Products and providers finally comparable on a like-for-like basis.</span></li>
+        <li><span class="cs-mark">✓</span><span>Performance trends visible over time instead of reconstructed by hand.</span></li>
+        <li><span class="cs-mark">✓</span><span>Reconciled figures a trading-floor audience could trust and act on.</span></li>
+        <li><span class="cs-mark">✓</span><span>Manual comparison work replaced by a single consolidated source.</span></li>
+        <li><span class="cs-mark">✓</span><span>Adopted across senior audiences in three offices and two languages.</span></li>
+        <li><span class="cs-mark">✓</span><span>A reusable model that new products and providers slotted straight into.</span></li>
+      </ul>
+    </section>
+
+
+    <!-- ── Closing ───────────────────────────────────────────────── -->
+    <section class="cs-section cs-close">
+      <h4 class="cs-h3">Want the detail behind this?</h4>
+      <p class="cs-text">
+        Happy to walk through how the provider data was reconciled and modelled, and how the
+        benchmark and trend views were built.
+      </p>
+    </section>
+
+  </template>
+
+
   <!--
     - CASE STUDY — powerbi-suites
     - Standard portfolio-card detail (opens on card click). Copy and the semantic-
@@ -1877,23 +2402,263 @@
 
   </template>
 
+  <!--
+    - CASE STUDY — data-modeling
+    - Dual-entry (portfolio card + Tronico related-projects list). Copy and the two
+    - diagrams come from the supplied reference page, restyled onto the site's own
+    - tokens; diagram fills use the scoped --dia-* palette so both themes render
+    - legibly. No figures added, no copy rewritten.
+  -->
   <template id="detail-data-modeling">
-    <p class="modal-lede"><span class="modal-placeholder">[PROJECT_DETAIL: data-modeling — description, 2-4
-        sentences]</span></p>
-    <dl class="modal-meta">
-      <div>
-        <dt>Role</dt>
-        <dd><span class="modal-placeholder">[PROJECT_DETAIL: data-modeling — role]</span></dd>
+
+    <p class="cs-eyebrow">Tronico · Agôn Electronics group</p>
+
+    <p class="cs-role-line">
+      <b>Product Owner, Data &amp; BI</b>
+      <span class="cs-dot"></span>Data modeling &amp; governance
+      <span class="cs-dot"></span>The layer that makes numbers trustworthy
+    </p>
+
+    <p class="cs-lead">
+      Clean data isn't the same as trusted data. This is the modeling and governance layer of
+      the platform — the star-schema models that make the numbers usable, the quality rules
+      that keep them right, and the lineage that lets anyone trace a figure back to its source.
+      The unglamorous work that decides whether a dashboard gets believed.
+    </p>
+
+    <ul class="cs-chips">
+      <li>Dimensional modeling</li>
+      <li>Conformed dimensions</li>
+      <li>Data quality rules</li>
+      <li>Catalogue &amp; glossary</li>
+      <li>Source-to-consumption lineage</li>
+    </ul>
+
+
+    <!-- ── The challenge ─────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">The challenge</p>
+      <h4 class="cs-h3">A cleaned table isn't yet a trusted number</h4>
+      <p class="cs-text">
+        Once data lands and is cleaned, three things still stand between it and a decision: it has
+        to be <b>modeled</b> so it can be queried consistently, <b>quality-checked</b> so errors
+        don't reach reports, and <b>documented</b> so people know what a figure means and where it
+        came from. Skip these and dashboards quietly drift, definitions diverge, and no one can say
+        which number is right. This layer exists so that never happens.
+      </p>
+    </section>
+
+
+    <!-- ── The models (centrepiece) ──────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">The models</p>
+      <h4 class="cs-h3">Star schemas with dimensions shared across the group</h4>
+      <p class="cs-text">
+        Gold-layer models follow a star schema — fact tables at the centre, surrounded by
+        conformed dimensions reused across entities, so "product", "supplier" or "date" mean the
+        same thing everywhere. Consistent naming and partitioning standards keep the models
+        predictable and fast to query.
+      </p>
+
+      <figure class="cs-figure">
+        <span class="cs-scrollhint">↔ Scroll the diagram horizontally</span>
+        <div class="cs-diagram">
+          <svg viewBox="0 0 1000 440" role="img" aria-labelledby="dm-star-t dm-star-d">
+            <title id="dm-star-t">Star-schema data model</title>
+            <desc id="dm-star-d">A central fact table surrounded by conformed dimension tables.</desc>
+            <defs>
+              <marker id="dm-skey" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="9" markerHeight="9">
+                <circle cx="6" cy="6" r="3.4" fill="none" stroke="var(--dia-struct)" stroke-width="1.5"/>
+              </marker>
+            </defs>
+
+            <!-- relationships (drawn first, behind boxes) -->
+            <g stroke="var(--dia-struct)" stroke-width="1.5">
+              <line x1="215" y1="116" x2="440" y2="188" marker-start="url(#dm-skey)"/>
+              <line x1="785" y1="116" x2="560" y2="188" marker-start="url(#dm-skey)"/>
+              <line x1="190" y1="368" x2="435" y2="252" marker-start="url(#dm-skey)"/>
+              <line x1="810" y1="368" x2="565" y2="252" marker-start="url(#dm-skey)"/>
+              <line x1="500" y1="350" x2="500" y2="272" marker-start="url(#dm-skey)"/>
+            </g>
+
+            <!-- FACT (center) -->
+            <rect x="410" y="170" width="180" height="100" rx="12" fill="var(--dia-gold-bg)" stroke="var(--dia-gold-line)" stroke-width="1.6"/>
+            <text x="500" y="196" fill="var(--dia-gold)" font-size="14.5" font-weight="700" text-anchor="middle">FACT</text>
+            <text x="500" y="216" fill="var(--dia-gold-dim)" font-size="11.5" text-anchor="middle">Quality &amp; delivery events</text>
+            <line x1="426" y1="226" x2="574" y2="226" stroke="var(--dia-gold-line)"/>
+            <text x="500" y="243" fill="var(--dia-gold-dim)" font-size="11" text-anchor="middle" class="cs-mono">measures + foreign keys</text>
+
+            <!-- DIMENSIONS -->
+            <g>
+              <rect x="90" y="40" width="150" height="76" rx="10" fill="var(--dia-node-bg)" stroke="var(--dia-border-strong)"/>
+              <text x="105" y="64" fill="var(--dia-flow-soft)" font-size="10.5" font-weight="700" class="cs-mono">DIM</text>
+              <text x="105" y="86" fill="var(--dia-text)" font-size="14" font-weight="600">Date</text>
+              <text x="105" y="104" fill="var(--dia-text-muted)" font-size="11">calendar · periods</text>
+
+              <rect x="760" y="40" width="150" height="76" rx="10" fill="var(--dia-node-bg)" stroke="var(--dia-border-strong)"/>
+              <text x="775" y="64" fill="var(--dia-flow-soft)" font-size="10.5" font-weight="700" class="cs-mono">DIM</text>
+              <text x="775" y="86" fill="var(--dia-text)" font-size="14" font-weight="600">Product</text>
+              <text x="775" y="104" fill="var(--dia-text-muted)" font-size="11">references · families</text>
+
+              <rect x="40" y="330" width="150" height="76" rx="10" fill="var(--dia-node-bg)" stroke="var(--dia-border-strong)"/>
+              <text x="55" y="354" fill="var(--dia-flow-soft)" font-size="10.5" font-weight="700" class="cs-mono">DIM</text>
+              <text x="55" y="376" fill="var(--dia-text)" font-size="14" font-weight="600">Site / Entity</text>
+              <text x="55" y="394" fill="var(--dia-text-muted)" font-size="11">plant · company</text>
+
+              <rect x="810" y="330" width="150" height="76" rx="10" fill="var(--dia-node-bg)" stroke="var(--dia-border-strong)"/>
+              <text x="825" y="354" fill="var(--dia-flow-soft)" font-size="10.5" font-weight="700" class="cs-mono">DIM</text>
+              <text x="825" y="376" fill="var(--dia-text)" font-size="14" font-weight="600">Supplier</text>
+              <text x="825" y="394" fill="var(--dia-text-muted)" font-size="11">vendor · category</text>
+
+              <rect x="425" y="350" width="150" height="76" rx="10" fill="var(--dia-node-bg)" stroke="var(--dia-border-strong)"/>
+              <text x="440" y="374" fill="var(--dia-flow-soft)" font-size="10.5" font-weight="700" class="cs-mono">DIM</text>
+              <text x="440" y="396" fill="var(--dia-text)" font-size="14" font-weight="600">Defect type</text>
+              <text x="440" y="414" fill="var(--dia-text-muted)" font-size="11">cause · category</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption class="cs-figcaption">
+          Conformed dimensions reused across entities — one definition of product, supplier, site
+          and date for the whole group.
+        </figcaption>
+      </figure>
+    </section>
+
+
+    <!-- ── Quality & lineage ─────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">Quality &amp; lineage</p>
+      <h4 class="cs-h3">Errors caught early, every figure traceable</h4>
+      <p class="cs-text">
+        Between clean data and the model sits a quality gate — rules and thresholds that route bad
+        rows to a quarantine instead of into a report, with automated checks and anomaly alerts.
+        And across the whole chain, lineage is documented: any figure in a dashboard can be traced
+        back to the exact source it came from, with impact analysis when a source changes.
+      </p>
+
+      <figure class="cs-figure">
+        <span class="cs-scrollhint">↔ Scroll the diagram horizontally</span>
+        <div class="cs-diagram">
+          <svg viewBox="0 0 1000 300" role="img" aria-labelledby="dm-ql-t dm-ql-d">
+            <title id="dm-ql-t">Data quality gate and lineage</title>
+            <desc id="dm-ql-d">Source to bronze to a silver quality gate with quarantine, then gold model to report, with lineage documented across the chain.</desc>
+            <defs>
+              <marker id="dm-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="var(--dia-struct)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+              <marker id="dm-ah-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="var(--dia-alert)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <g font-size="13" font-weight="600">
+              <rect x="24" y="60" width="150" height="60" rx="11" fill="var(--dia-node-bg)" stroke="var(--dia-border-strong)"/>
+              <text x="99" y="95" fill="var(--dia-text)" text-anchor="middle">Source</text>
+
+              <rect x="216" y="60" width="150" height="60" rx="11" fill="var(--dia-bronze-bg)" stroke="var(--dia-bronze-line)"/>
+              <text x="291" y="88" fill="var(--dia-bronze)" text-anchor="middle">Bronze</text>
+              <text x="291" y="106" fill="var(--dia-bronze-dim)" text-anchor="middle" font-size="11" font-weight="400">raw landing</text>
+
+              <rect x="408" y="52" width="160" height="76" rx="11" fill="var(--dia-flow-bg)" stroke="var(--dia-flow)" stroke-width="1.6"/>
+              <text x="488" y="80" fill="var(--dia-flow-soft)" text-anchor="middle">Silver · DQ gate</text>
+              <text x="488" y="99" fill="var(--dia-text-muted)" text-anchor="middle" font-size="10.5" font-weight="400">rules · thresholds</text>
+              <text x="488" y="114" fill="var(--dia-text-muted)" text-anchor="middle" font-size="10.5" font-weight="400">automated checks</text>
+
+              <rect x="610" y="60" width="150" height="60" rx="11" fill="var(--dia-gold-bg)" stroke="var(--dia-gold-line)"/>
+              <text x="685" y="88" fill="var(--dia-gold)" text-anchor="middle">Gold model</text>
+              <text x="685" y="106" fill="var(--dia-gold-dim)" text-anchor="middle" font-size="11" font-weight="400">star schema</text>
+
+              <rect x="802" y="60" width="150" height="60" rx="11" fill="var(--dia-flow-bg)" stroke="var(--dia-flow-line)"/>
+              <text x="877" y="95" fill="var(--dia-flow-soft)" text-anchor="middle">Report</text>
+            </g>
+
+            <!-- flow arrows -->
+            <g stroke="var(--dia-struct)" stroke-width="1.7">
+              <line x1="174" y1="90" x2="212" y2="90" marker-end="url(#dm-ah)"/>
+              <line x1="366" y1="90" x2="404" y2="90" marker-end="url(#dm-ah)"/>
+              <line x1="568" y1="90" x2="606" y2="90" marker-end="url(#dm-ah)"/>
+              <line x1="760" y1="90" x2="798" y2="90" marker-end="url(#dm-ah)"/>
+            </g>
+
+            <!-- quarantine branch -->
+            <rect x="408" y="176" width="160" height="46" rx="10" fill="var(--dia-alert-bg)" stroke="var(--dia-alert-line)"/>
+            <text x="488" y="204" fill="var(--dia-alert-soft)" font-size="12.5" font-weight="600" text-anchor="middle">Quarantine — bad rows</text>
+            <line x1="488" y1="128" x2="488" y2="174" stroke="var(--dia-alert)" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#dm-ah-a)"/>
+
+            <!-- lineage bar -->
+            <rect x="24" y="250" width="928" height="34" rx="9" fill="var(--dia-flow-bg)" stroke="var(--dia-flow-line)"/>
+            <text x="44" y="272" fill="var(--dia-flow-soft)" font-size="12.5" font-weight="600">Lineage documented →</text>
+            <text x="210" y="272" fill="var(--dia-text-muted)" font-size="12">every figure traceable source → consumption · impact analysis on change</text>
+            <line x1="99" y1="248" x2="99" y2="234" stroke="var(--dia-flow-line)"/>
+            <line x1="877" y1="248" x2="877" y2="234" stroke="var(--dia-flow-line)"/>
+            <line x1="99" y1="234" x2="877" y2="234" stroke="var(--dia-flow-line)" stroke-dasharray="3 4"/>
+          </svg>
+        </div>
+        <figcaption class="cs-figcaption">
+          Bad rows quarantined, not reported · lineage spans the whole chain, source to consumption.
+        </figcaption>
+      </figure>
+    </section>
+
+
+    <!-- ── What keeps the models trustworthy ─────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">What keeps the models trustworthy</p>
+      <h4 class="cs-h3">Governance, not just modeling</h4>
+      <ul class="cs-gov">
+        <li><span class="cs-mark">✓</span><span><b>Conformed dimensions</b><span>Shared dimensions reused across entities, so a product or supplier is defined once for the whole group.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Naming &amp; partitioning standards</b><span>Consistent conventions across Bronze/Silver/Gold so models stay predictable and performant.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Data-quality rules &amp; quarantines</b><span>Defined rules and thresholds route bad rows aside instead of letting them reach reports.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Automated checks &amp; alerts</b><span>Quality controls run automatically, with anomaly alerts rather than manual spot-checking.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Catalogue &amp; business glossary</b><span>Assets, owners and classifications recorded, with validated business definitions for each term.</span></span></li>
+        <li><span class="cs-mark">✓</span><span><b>Source-to-consumption lineage</b><span>Every flow documented end to end, enabling impact analysis when a source changes.</span></span></li>
+      </ul>
+    </section>
+
+
+    <!-- ── My role ───────────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">My role</p>
+      <div class="cs-role">
+        <h4 class="cs-h3">Product Owner, Data &amp; BI</h4>
+        <p class="cs-text">
+          Accountable for the modeling, quality and documentation standards — and hands-on on the
+          semantic models themselves:
+        </p>
+        <ul>
+          <li><b>Modeling standards</b> — set the star-schema and conformed-dimension conventions and owned the semantic-model development.</li>
+          <li><b>Quality framework</b> — defined the data-quality rules, thresholds and quarantine approach the platform runs on.</li>
+          <li><b>Catalogue &amp; glossary</b> — owned the business glossary so every KPI term has one validated definition.</li>
+          <li><b>Lineage &amp; documentation</b> — established source-to-consumption lineage and the technical documentation that keeps it maintainable.</li>
+        </ul>
       </div>
-      <div>
-        <dt>Tools</dt>
-        <dd><span class="modal-placeholder">[PROJECT_DETAIL: data-modeling — tools]</span></dd>
-      </div>
-      <div>
-        <dt>Outcome</dt>
-        <dd><span class="modal-placeholder">[PROJECT_DETAIL: data-modeling — outcome]</span></dd>
-      </div>
-    </dl>
+    </section>
+
+
+    <!-- ── Outcomes ──────────────────────────────────────────────── -->
+    <section class="cs-section">
+      <p class="cs-h2">Outcomes</p>
+      <h4 class="cs-h3">Numbers people can act on without second-guessing</h4>
+      <ul class="cs-out">
+        <li><span class="cs-mark">✓</span><span>Consistent star-schema models queried the same way across the group.</span></li>
+        <li><span class="cs-mark">✓</span><span>One definition of each dimension — no divergent versions of "product" or "supplier".</span></li>
+        <li><span class="cs-mark">✓</span><span>Quality errors caught and quarantined before they reach a report.</span></li>
+        <li><span class="cs-mark">✓</span><span>Any figure traceable back to its exact source.</span></li>
+        <li><span class="cs-mark">✓</span><span>A business glossary that ends "which number is right?" debates.</span></li>
+        <li><span class="cs-mark">✓</span><span>Impact analysis possible before a source change breaks something.</span></li>
+      </ul>
+    </section>
+
+
+    <!-- ── Closing ───────────────────────────────────────────────── -->
+    <section class="cs-section cs-close">
+      <h4 class="cs-h3">Want the detail behind the modeling layer?</h4>
+      <p class="cs-text">
+        Happy to walk through the modeling standards, the quality framework, and how lineage was
+        documented.
+      </p>
+    </section>
+
   </template>
 
   <template id="detail-python-automation">

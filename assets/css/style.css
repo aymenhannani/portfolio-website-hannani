@@ -1188,8 +1188,10 @@ body {
 .portfolio-card[data-project="python-automation"] { background-image: url("../images/art-automation.svg"); }
 .portfolio-card[data-project="joutyat-la-bourse"] { background-image: url("../images/art-stock-market.svg"); }
 .portfolio-card[data-project="mediamind-academy"] { background-image: url("../images/art-coaching.svg"); }
-/* related-only project (picker card, not shown in the Portfolio grid) */
+/* related-only projects (picker cards, not shown in the Portfolio grid) */
 .portfolio-card[data-project="qlik-migration"]    { background-image: url("../images/art-qlik-migration.svg"); }
+.portfolio-card[data-project="sg-doc-automation"] { background-image: url("../images/art-sg-doc-automation.svg"); }
+.portfolio-card[data-project="bi-performance-dashboards"] { background-image: url("../images/art-bi-performance.svg"); }
 
 [data-theme="light"] .portfolio-card[data-project="fabric-platform"]   { background-image: url("../images/art-fabric-platform-light.svg"); }
 [data-theme="light"] .portfolio-card[data-project="powerbi-suites"]    { background-image: url("../images/art-dashboards-light.svg"); }
@@ -1198,6 +1200,8 @@ body {
 [data-theme="light"] .portfolio-card[data-project="joutyat-la-bourse"] { background-image: url("../images/art-stock-market-light.svg"); }
 [data-theme="light"] .portfolio-card[data-project="mediamind-academy"] { background-image: url("../images/art-coaching-light.svg"); }
 [data-theme="light"] .portfolio-card[data-project="qlik-migration"]    { background-image: url("../images/art-qlik-migration-light.svg"); }
+[data-theme="light"] .portfolio-card[data-project="sg-doc-automation"] { background-image: url("../images/art-sg-doc-automation-light.svg"); }
+[data-theme="light"] .portfolio-card[data-project="bi-performance-dashboards"] { background-image: url("../images/art-bi-performance-light.svg"); }
 
 /**
  * SCRIM — guarantees the title is legible over any artwork.
@@ -1853,6 +1857,96 @@ body.modal-open { overflow: hidden; }
   font-family: var(--ff-barlow);
   font-size: 1.25rem;
   font-weight: var(--fw-700);
+}
+
+/* --- results ("the sell": headline stat + result rows) -------------- */
+
+.cs-stats {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  margin-block-end: 22px;
+}
+
+/* the headline number is deliberate ACTION-family emphasis, so teal */
+.cs-stat-hero {
+  background: linear-gradient(135deg, rgba(45, 212, 191, 0.12), rgba(45, 212, 191, 0.04));
+  border: 1px solid rgba(45, 212, 191, 0.30);
+  border-radius: var(--radius-15);
+  padding: 24px;
+}
+
+[data-theme="light"] .cs-stat-hero {
+  background: linear-gradient(135deg, rgba(11, 122, 112, 0.10), rgba(11, 122, 112, 0.03));
+  border-color: rgba(11, 122, 112, 0.35);
+}
+
+.cs-stat-hero .cs-big {
+  color: var(--accent-primary);
+  font-family: var(--ff-barlow);
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.cs-stat-hero .cs-cap {
+  color: var(--fg);
+  font-family: var(--ff-barlow);
+  font-size: 1.5rem;
+  font-weight: var(--fw-600);
+  margin-block-start: 10px;
+}
+
+.cs-stat-hero .cs-sub {
+  color: var(--text);
+  font-size: 1.35rem;
+  line-height: 1.6;
+  margin-block-start: 6px;
+}
+
+.cs-results {
+  display: grid;
+  gap: 12px;
+}
+
+.cs-result {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-15);
+  padding: 14px 16px;
+}
+
+/* result ticks are ACTION-family wins, so teal (unlike the structural cs-mark) */
+.cs-result .cs-check {
+  flex: none;
+  color: var(--accent-primary);
+  font-size: 1.5rem;
+  font-weight: var(--fw-700);
+  line-height: 1.4;
+}
+
+.cs-result b {
+  display: block;
+  color: var(--fg);
+  font-family: var(--ff-barlow);
+  font-size: 1.45rem;
+  font-weight: var(--fw-600);
+  margin-block-end: 2px;
+}
+
+.cs-result b + span {
+  display: block;
+  color: var(--text);
+  font-size: 1.35rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 720px) {
+  .cs-stats { grid-template-columns: 1.1fr 1fr; }
 }
 
 /* --- my role -------------------------------------------------------- */
