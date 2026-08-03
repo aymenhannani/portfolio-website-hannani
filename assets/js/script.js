@@ -317,6 +317,54 @@ for (let i = 0; i < projectCards.length; i++) {
   });
 }
 
+/**
+ * work grid — the Portfolio section's filterable tiles
+ *
+ * A tile is a second entry point into a project's existing dialog: it names a
+ * template through data-target and the card behind that template still supplies
+ * the title, tag and artwork, so nothing is duplicated per entry point.
+ */
+
+const workTiles = document.querySelectorAll("[data-target]");
+
+for (let i = 0; i < workTiles.length; i++) {
+  workTiles[i].addEventListener("click", function () {
+    const card = cardFor(this.dataset.target);
+    if (card) openModal(card, this);
+  });
+}
+
+const workFilters = document.querySelectorAll("[data-filter]");
+const workCount = document.querySelector("[data-work-count]");
+const workEmpty = document.querySelector("[data-work-empty]");
+
+const applyFilter = function (value) {
+  let shown = 0;
+
+  for (let i = 0; i < workTiles.length; i++) {
+    const cats = (workTiles[i].dataset.cats || "").split(/\s+/);
+    const match = value === "all" || cats.indexOf(value) !== -1;
+
+    // the <li> carries the hidden state so the grid closes the gap
+    workTiles[i].closest("li").hidden = !match;
+    if (match) shown++;
+  }
+
+  for (let i = 0; i < workFilters.length; i++) {
+    const on = workFilters[i].dataset.filter === value;
+    workFilters[i].setAttribute("aria-pressed", on ? "true" : "false");
+  }
+
+  if (workCount) workCount.textContent = shown + (shown === 1 ? " project" : " projects");
+  if (workEmpty) workEmpty.hidden = shown !== 0;
+};
+
+for (let i = 0; i < workFilters.length; i++) {
+  workFilters[i].addEventListener("click", function () {
+    applyFilter(this.dataset.filter);
+  });
+}
+
 const relatedTriggers = document.querySelectorAll("[data-related-trigger]");
 
 for (let i = 0; i < relatedTriggers.length; i++) {

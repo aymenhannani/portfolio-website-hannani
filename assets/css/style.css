@@ -66,6 +66,15 @@
   --accent-primary-line: rgba(45, 212, 191, 0.35);
   --accent-primary-ink: #04201c;        /* text on a solid teal fill — 9.2:1 */
 
+  /* stat pills on the work tiles — teal family, lifted for AA on --surface-2 */
+  --stat-ink: #baf3ea;
+  --stat-bg: rgba(45, 212, 191, 0.10);
+  --stat-line: rgba(45, 212, 191, 0.32);
+
+  /* tile tags — same slate hue as --accent-neutral-ink, lightened so it still
+     clears AA on the tile's hover surface (5.61:1 / 4.99:1) */
+  --tag-ink: #949fc8;
+
   /* --- SECONDARY: amber — achievement / credential ----------------- */
   --accent-secondary: #f0a830;          /* 9.33:1 on --bg — passes AA as small text */
   --accent-secondary-soft: rgba(240, 168, 48, 0.12);
@@ -182,6 +191,13 @@
   --accent-primary-soft: rgba(11, 122, 112, 0.10);
   --accent-primary-line: rgba(11, 122, 112, 0.38);
   --accent-primary-ink: #ffffff;        /* white on teal fill — 5.21:1 */
+
+  /* stat pills on the work tiles — teal family, darkened for AA on --surface-2 */
+  --stat-ink: #08635b;
+  --stat-bg: rgba(11, 122, 112, 0.09);
+  --stat-line: rgba(11, 122, 112, 0.34);
+
+  --tag-ink: #545f80;
 
   /* --- SECONDARY: amber — achievement / credential ----------------- */
   --accent-secondary: #8f5b00;          /* 5.40:1 on --bg, 5.03:1 on --surface-2 */
@@ -1147,7 +1163,263 @@ body {
 
 .portfolio .section-title { margin-block-end: 18px; }
 
-.portfolio .section-text { margin-block-end: 50px; }
+.portfolio .section-text {
+  max-width: 60ch;
+  margin-inline: auto;
+  margin-block-end: 30px;
+  text-align: center;
+}
+
+
+/**
+ * WORK GRID — the filterable square tiles that render the Portfolio section.
+ *
+ * Colour roles: teal is ACTION (hover border, "View →", active filter, icon chip)
+ * and also carries the STAT pill, which is brand emphasis — never amber, which
+ * stays reserved for credentials. The footer tags are STRUCTURAL slate, so they
+ * read a step quieter than the stat.
+ */
+
+.work-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-block-end: 14px;
+}
+
+.work-filter {
+  color: var(--text-muted);
+  font-family: var(--ff-barlow);
+  font-size: 1.45rem;
+  font-weight: var(--fw-600);
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 9px 18px;
+  cursor: pointer;
+  transition: var(--transition-2);
+}
+
+.work-filter:is(:hover, :focus-visible) {
+  color: var(--fg);
+  border-color: var(--accent-primary-line);
+}
+
+.work-filter[aria-pressed="true"] {
+  color: var(--accent-primary-ink);
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  font-weight: var(--fw-700);
+}
+
+.work-count {
+  color: var(--text-muted);
+  font-family: var(--ff-barlow);
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+  margin-block-end: 26px;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.work-grid > li[hidden] { display: none; }
+
+.work-tile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  text-align: left;
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-15);
+  padding: 20px;
+  cursor: pointer;
+  transition: var(--transition-2);
+}
+
+.work-tile:is(:hover, :focus-visible) {
+  transform: translateY(-4px);
+  border-color: var(--accent-primary-line);
+  background-color: var(--surface-3);
+}
+
+.tile-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-block-end: 12px;
+}
+
+/* icon chip — ACTION family */
+.tile-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-10);
+  color: var(--accent-primary);
+  background-color: var(--accent-primary-soft);
+  border: 1px solid var(--accent-primary-line);
+}
+
+.tile-icon svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.tile-ctx {
+  color: var(--text-muted);
+  font-family: var(--ff-barlow);
+  font-size: 1.1rem;
+  font-weight: var(--fw-700);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: right;
+  padding-block-start: 4px;
+}
+
+.tile-hook {
+  color: var(--fg);
+  font-family: var(--ff-barlow);
+  font-size: 1.8rem;
+  font-weight: var(--fw-700);
+  line-height: 1.25;
+  margin-block-end: 8px;
+}
+
+.tile-desc {
+  color: var(--text);
+  font-size: 1.3rem;
+  line-height: 1.55;
+}
+
+/* STAT pill — brand/teal emphasis, deliberately not the credential amber */
+.tile-stat {
+  align-self: flex-start;
+  color: var(--stat-ink);
+  background-color: var(--stat-bg);
+  border: 1px solid var(--stat-line);
+  border-radius: var(--radius-pill);
+  font-family: var(--ff-barlow);
+  font-size: 1.25rem;
+  font-weight: var(--fw-700);
+  padding: 5px 12px;
+  margin-block-start: 12px;
+}
+
+.tile-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-block-start: auto;
+  padding-block-start: 12px;
+  border-block-start: 1px solid var(--line);
+}
+
+.tile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* STRUCTURAL slate — quieter than the stat pill */
+.tile-tag {
+  color: var(--tag-ink);
+  font-family: var(--ff-barlow);
+  font-size: 1.05rem;
+  font-weight: var(--fw-600);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-5);
+  padding: 3px 8px;
+}
+
+.tile-view {
+  flex: none;
+  color: var(--accent-primary);
+  font-family: var(--ff-barlow);
+  font-size: 1.25rem;
+  font-weight: var(--fw-700);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: var(--transition-2);
+}
+
+/* the label only shows over the hover surface, where plain teal drops to 4.21:1 */
+[data-theme="light"] .tile-view { color: var(--accent-primary-strong); }
+
+.work-tile:is(:hover, :focus-visible) .tile-view {
+  opacity: 1;
+  transform: none;
+}
+
+.work-empty {
+  color: var(--text-muted);
+  text-align: center;
+  padding-block: 40px;
+}
+
+.work-empty[hidden] { display: none; }
+
+/* the lift and the reveal are decoration — keep the affordance, drop the motion */
+@media (prefers-reduced-motion: reduce) {
+  .work-tile:is(:hover, :focus-visible) { transform: none; }
+
+  .tile-view {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/**
+ * 1 → 2 → 3 columns. The two-column band starts at 640px, where a tile is at its
+ * narrowest (~292px), so type and spacing tighten there to keep the copy inside
+ * the square rather than clipping it.
+ */
+@media (min-width: 640px) {
+  .work-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 992px) {
+  .work-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/**
+ * The two tightest tiles: a very narrow phone in one column (~280px) and the
+ * bottom of the two-column band (~292px). Both shave spacing and type so the
+ * copy still fits the square instead of pushing it out of shape.
+ */
+@media (max-width: 360px), (min-width: 640px) and (max-width: 767px) {
+  .work-tile { padding: 16px; }
+
+  .tile-icon { width: 36px; height: 36px; }
+
+  .tile-icon svg { width: 19px; height: 19px; }
+
+  .tile-top { margin-block-end: 10px; }
+
+  .tile-hook { font-size: 1.6rem; }
+
+  .tile-desc { font-size: 1.25rem; line-height: 1.5; }
+
+  .tile-stat { margin-block-start: 10px; }
+
+  .tile-foot { padding-block-start: 10px; }
+}
 
 .portfolio-list {
   display: grid;
