@@ -631,6 +631,49 @@ body {
   white-space: nowrap;
 }
 
+/* --- language toggle ---------------------------------------------- */
+
+/* Same border, height and hover as the theme toggle, so the two still read as
+   one control pair. It is a pill rather than a circle only because it now
+   carries a flag next to the label. */
+.lang-toggle {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 40px;
+  padding-inline: 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  transition: var(--transition-2);
+}
+
+/* Fixed width, natural height: the two flags keep their own aspect ratios and
+   are never stretched. The hairline keeps the white bands of either flag from
+   dissolving into the light theme. */
+.lang-toggle-flag {
+  flex: none;
+  width: 20px;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+
+.lang-toggle-text {
+  color: var(--accent-primary);
+  font-family: var(--ff-barlow);
+  font-size: 1.4rem;
+  font-weight: var(--fw-700);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.lang-toggle:is(:hover, :focus-visible) { border-color: var(--accent-primary); }
+
+/* French is swapped in after first paint, so hide only that until it lands */
+.i18n-cloak body { visibility: hidden; }
+
 
 
 
@@ -2896,6 +2939,21 @@ a.contact-item-link:is(:hover, :focus-visible) { text-decoration: underline; }
   /* on desktop the nav rejoins the flow, so the toggle lands after Download CV */
   .navbar { margin-inline-start: auto; }
 
+  /*
+   * French labels run ~15-20% longer and push the desktop nav past the
+   * container. Only the spacing is tightened, and only for French, so the
+   * English header keeps its exact measurements.
+   */
+  [data-lang="fr"] .navbar-list { gap: 18px; }
+
+  [data-lang="fr"] .navbar .btn { --padding: 9px 20px; }
+
+  [data-lang="fr"] .header > .container { gap: 10px; }
+
+  /* a nav item is a label, not a paragraph: keep each one on its own line
+     rather than letting flex shrink break "À propos" in half */
+  [data-lang="fr"] .navbar-list > li > .navbar-link { white-space: nowrap; }
+
 
 
   /**
@@ -3084,5 +3142,86 @@ a.contact-item-link:is(:hover, :focus-visible) { text-decoration: underline; }
 
   .copyright,
   .footer-list { margin-inline: 0; }
+
+}
+
+
+
+
+/*-----------------------------------*\
+  #HEADER, ROOM FOR THE TOGGLES
+\*-----------------------------------*/
+
+/**
+ * The language toggle joins the theme toggle outside the collapsible nav, so
+ * both stay reachable on mobile. That costs the logo about 54px, which is
+ * enough to wrap "Aymen HANNANI" onto a second line and push it out of the
+ * fixed-height header. A slightly tighter gap buys the row back its space.
+ *
+ * Under 360px there is not enough room for the logo on one line next to both
+ * toggles, so it is left to wrap exactly as it did before, rather than trading
+ * one clip for another. 360px is the narrowest phone width in common use.
+ */
+
+@media (max-width: 991px) {
+
+  .header > .container { gap: 8px; }
+
+}
+
+/**
+ * Where the header row is tightest, the language toggle takes its compact
+ * form: the flag drops to the small end of its size range and the padding
+ * closes up. Both flags shrink together, so they stay the same size as each
+ * other, and the button keeps its full 40px hit area.
+ */
+
+@media (max-width: 1119px) {
+
+  .lang-toggle {
+    gap: 5px;
+    padding-inline: 7px;
+  }
+
+  .lang-toggle-flag { width: 16px; }
+
+}
+
+@media (min-width: 360px) and (max-width: 991px) {
+
+  .logo { white-space: nowrap; }
+
+}
+
+/**
+ * Just above the mobile breakpoint the nav is already in flow but the
+ * container is at its narrowest, so the two round toggles leave the row short
+ * of space. Tighten the gaps for that band only, in both languages: it keeps
+ * the logo at full width and "Download CV" on one line, as it was before the
+ * language toggle joined the row. Every wider width keeps its own spacing.
+ */
+
+@media (min-width: 992px) and (max-width: 1049px) {
+
+  .header > .container { gap: 10px; }
+
+  .navbar-list { gap: 10px; }
+
+  /* the longer French labels need the last few pixels here */
+  [data-lang="fr"] .navbar-list { gap: 8px; }
+
+  .navbar .btn { --padding: 9px 20px; }
+
+}
+
+/**
+ * Between that band and 1120px the container is still short of its full
+ * 1080px, which the longer French nav feels first. English has room here and
+ * keeps its own spacing.
+ */
+
+@media (min-width: 1050px) and (max-width: 1119px) {
+
+  [data-lang="fr"] .navbar-list { gap: 12px; }
 
 }

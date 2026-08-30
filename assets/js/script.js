@@ -39,8 +39,15 @@ const applyTheme = function (theme) {
   if (themeToggle) {
     const next = theme === "light" ? "dark" : "light";
     themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
-    if (themeLabel) themeLabel.textContent = "Switch to " + next + " theme";
-    themeToggle.setAttribute("aria-label", "Switch to " + next + " theme");
+
+    // the label names the theme you would switch TO, so it depends on state as
+    // well as language, and script.js owns it rather than a static data-i18n key
+    const label = window.I18N
+      ? I18N.t(next === "light" ? "nav.switch-to-light-theme" : "nav.switch-to-dark-theme")
+      : "Switch to " + next + " theme";
+
+    if (themeLabel) themeLabel.textContent = label;
+    themeToggle.setAttribute("aria-label", label);
   }
 };
 
@@ -60,6 +67,50 @@ if (themeToggle) {
 
     applyTheme(next);
     try { localStorage.setItem("theme", next); } catch (e) { }
+  });
+}
+
+
+
+/**
+ * language toggle
+ *
+ * <html lang> and <html data-lang> are already set by the bootstrap script in
+ * <head>, and i18n.js has swapped the strings before this runs. This wires the
+ * button and keeps the state-dependent labels in step.
+ *
+ * Independent of the theme: switching language never touches data-theme, and
+ * switching theme never touches data-lang.
+ */
+
+const langToggle = document.querySelector("[data-lang-toggle]");
+const langLabel = document.querySelector("[data-lang-label]");
+const langFlag = document.querySelector("[data-lang-flag]");
+
+const applyLangUi = function (lang) {
+  if (!langToggle) return;
+
+  // the button offers the OTHER language, mirroring the theme toggle
+  const other = lang === "fr" ? "en" : "fr";
+
+  if (langLabel) langLabel.textContent = other.toUpperCase();
+
+  // decorative, so the src is all that changes: it stays alt="" and hidden
+  if (langFlag) langFlag.src = "./assets/images/flag-" + other + ".svg";
+  langToggle.setAttribute("aria-pressed", lang === "fr" ? "true" : "false");
+  langToggle.setAttribute(
+    "aria-label",
+    window.I18N
+      ? I18N.t(other === "fr" ? "nav.attr.switch-to-french" : "nav.attr.switch-to-english")
+      : "Switch to " + (other === "fr" ? "French" : "English")
+  );
+};
+
+if (langToggle && window.I18N) {
+  applyLangUi(I18N.lang());
+
+  langToggle.addEventListener("click", function () {
+    I18N.set(I18N.lang() === "fr" ? "en" : "fr");
   });
 }
 
@@ -192,6 +243,10 @@ let lastFocused = null;
 // set while a detail view was reached through a picker; re-renders that picker
 let goBack = null;
 
+// re-runs whichever dialog view is on screen, so a language switch reaches the
+// title and tag that script.js writes itself
+let currentView = null;
+
 const getFocusable = function () {
   return Array.prototype.filter.call(
     modalDialog.querySelectorAll(FOCUSABLE),
@@ -230,17 +285,30 @@ const renderDetail = function (card) {
 
   modalDetail.innerHTML = "";
   const template = document.getElementById("detail-" + card.dataset.project);
-  if (template) modalDetail.appendChild(template.content.cloneNode(true));
+  if (template) {
+    modalDetail.appendChild(template.content.cloneNode(true));
+    // <template> content sits outside the document, so it is still English
+    if (window.I18N) I18N.apply(modalDetail);
+  }
 
   modalArtFigure.hidden = false;
   modalContact.hidden = false;
   modalBack.hidden = !goBack;
+
+  currentView = function () { renderDetail(card); };
+};
+
+/* the role heading carries data-i18n, so reading it back gives the right
+   language without the picker having to cache a label */
+const roleLabelOf = function (roleEl) {
+  if (roleEl) return roleEl.textContent.trim();
+  return window.I18N ? I18N.t("modal.related-projects") : "Related projects";
 };
 
 /* view 2 — the shortlist shown when one role covers several projects */
-const renderPicker = function (cards, roleLabel) {
-  modalTag.textContent = "Related projects";
-  modalTitle.textContent = roleLabel;
+const renderPicker = function (cards, roleEl) {
+  modalTag.textContent = window.I18N ? I18N.t("modal.related-projects") : "Related projects";
+  modalTitle.textContent = roleLabelOf(roleEl);
 
   modalDetail.innerHTML = "";
 
@@ -253,7 +321,7 @@ const renderPicker = function (cards, roleLabel) {
     const source = cards[i];
 
     clone.addEventListener("click", function () {
-      goBack = function () { renderPicker(cards, roleLabel); };
+      goBack = function () { renderPicker(cards, roleEl); };
       renderDetail(source);
       modalDialog.scrollTop = 0;
       const focusable = getFocusable();
@@ -270,6 +338,8 @@ const renderPicker = function (cards, roleLabel) {
   modalArtFigure.hidden = true;
   modalContact.hidden = true;
   modalBack.hidden = true;
+
+  currentView = function () { renderPicker(cards, roleEl); };
 };
 
 const openModal = function (card, trigger) {
@@ -294,7 +364,7 @@ const openRelated = function (trigger) {
 
   lastFocused = trigger;
   goBack = null;
-  renderPicker(cards, role ? role.textContent.trim() : "Related projects");
+  renderPicker(cards, role);
   showDialog();
 };
 
@@ -303,6 +373,7 @@ const closeModal = function () {
   document.body.classList.remove("modal-open");
   modalDialog.scrollTop = 0;
   goBack = null;
+  currentView = null;
   modalBack.hidden = true;
 
   if (lastFocused) {
@@ -355,13 +426,21 @@ const applyFilter = function (value) {
     workFilters[i].setAttribute("aria-pressed", on ? "true" : "false");
   }
 
-  if (workCount) workCount.textContent = shown + (shown === 1 ? " project" : " projects");
+  if (workCount) {
+    workCount.textContent = window.I18N
+      ? I18N.count(shown)
+      : shown + (shown === 1 ? " project" : " projects");
+  }
   if (workEmpty) workEmpty.hidden = shown !== 0;
 };
 
+// remembered so a language switch can re-render the count in the new language
+let currentFilter = "all";
+
 for (let i = 0; i < workFilters.length; i++) {
   workFilters[i].addEventListener("click", function () {
-    applyFilter(this.dataset.filter);
+    currentFilter = this.dataset.filter;
+    applyFilter(currentFilter);
   });
 }
 
@@ -425,3 +504,27 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
+
+
+
+
+/**
+ * language switch: re-sync the strings script.js owns
+ *
+ * i18n.js has already swapped every data-i18n element by the time this runs.
+ * What is left is the handful of labels built in JS: the two toggles, the work
+ * count, and the dialog title/tag, which are copied out of the cards.
+ *
+ * Deliberately does not touch data-theme: the two systems stay independent.
+ */
+
+window.onLangChange = function (lang) {
+  applyLangUi(lang);
+
+  // re-derives its label from the current theme, now in the new language
+  applyTheme(root.getAttribute("data-theme") === "light" ? "light" : "dark");
+
+  applyFilter(currentFilter);
+
+  if (!modal.hidden && currentView) currentView();
+};
